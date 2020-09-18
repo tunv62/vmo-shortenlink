@@ -14,3 +14,24 @@ app.use(bodyParser.urlencoded({extended: true}))
 app.listen(4000, ()=>{
     console.log('server listening on port 4000')
 })
+
+app.get('/', (req, res)=>{
+    res.render('home')
+})
+
+app.get('/signup', (req, res)=>{
+    console.log('show ok')
+    res.render('signup')
+})
+
+app.get('/login', (req, res)=>{
+    res.render('login')
+})
+
+app.get('/signup/confirm-register', (req, res)=>{
+    res.render('confirm_register')
+})
+
+app.get('/login/forgot-password', (req, res)=>{
+    res.render('forgot_password')
+})
