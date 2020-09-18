@@ -30,8 +30,8 @@ const accountSchema = mongoose.Schema({
         api_name: String
     },
     info: {
-        firstName: String,
-        lastName: String,
+        firstname: String,
+        lastname: String,
         avatar: String,
         description: String
     }
