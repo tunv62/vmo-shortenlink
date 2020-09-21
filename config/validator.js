@@ -10,8 +10,17 @@ const validateRegisterAccount = ()=>{
     ]
 }
 
+const validateLogin = () => {
+    return [
+        body('email', 'email is required').notEmpty(),
+        body('email', 'email invalid').isEmail(),
+        body('password', 'password than 3 character').isLength({ min: 3})
+    ]
+}
+
 let validate = {
-    validateRegisterAccount: validateRegisterAccount
+    validateRegisterAccount: validateRegisterAccount,
+    validateLogin: validateLogin
 }
 
 module.exports = validate

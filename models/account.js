@@ -26,8 +26,7 @@ const accountSchema = mongoose.Schema({
     },
     google: {
         api_id: String,
-        api_email: String,
-        api_name: String
+        api_email: String
     },
     info: {
         firstname: String,
