@@ -38,16 +38,22 @@
                 <div class="p-5">
                   <div class="text-center">
                     <h1 class="h4 text-gray-900 mb-2">confirm account?</h1>
-                    <p class="mb-4">We send you a code. Just enter your code below to confirm</p>
+                    <p class="mb-4">We send you a code in <strong id="email"><%= email %></strong>. Just enter your code below to confirm</p>
                   </div>
-                  <form class="user">
-                    <div class="form-group">
-                      <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter code">
+                  <!-- <form class="user" action="/signup/confirm-register" method="POST"> -->
+                  <div class="user">
+                    <div class="alert alert-danger">
+                      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                      <strong>Opps!</strong> <span id="show-error"></span>
                     </div>
-                    <a href="/login" class="btn btn-primary btn-user btn-block">
-                      confirm
-                    </a>
-                  </form>
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" name="code" id="code" aria-describedby="emailHelp" placeholder="Enter code">
+                    </div>
+                    <button class="btn btn-primary btn-user btn-block" id="btn-confirm">Confirm Register</button>
+                    <!-- <a href="/login" class="btn btn-primary btn-user btn-block">
+                      Confirm Register
+                    </a> -->
+                  </div>
                   <hr>
                   <div class="text-center">
                     <a class="small" href="/signup">Create an Account!</a>
@@ -76,6 +82,7 @@
 
   <!-- Custom scripts for all pages-->
   <script src="/js/sb-admin-2.min.js"></script>
+  <script src="/js/confirm-register.js"></script>
 
 </body>
 
