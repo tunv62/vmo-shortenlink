@@ -1,15 +1,13 @@
 $(document).ready(function(){
     $('.alert-danger').hide()
-    $(document).on('click', '#btn-confirm', function(){
-        let email = $('#email').text()
-        let code = $('#code').val()
+    $(document).on('click', '#btn-reset', function(){
+        let email = $('#email').val()
         $.ajax({
-            url: '/signup/confirm-register',
+            url: '/login/forgot-password',
             method: 'POST',
             dataType: 'json',
             data: {
-                email: email,
-                code: code
+                email: email
             },
             success: function(dt){
                 let { messages, success} = dt
