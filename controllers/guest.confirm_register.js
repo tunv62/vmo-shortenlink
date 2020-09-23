@@ -16,7 +16,10 @@ module.exports = (req, res)=>{
                         acc.local.is_active = true
                         acc.save((err)=>{
                             if(err) res.json({ messages: 'not save', success: false})
-                            else res.json({messages: 'success', success:true})
+                            else {
+                                req.flash('success', 'register account success, enter to login')
+                                res.json({messages: 'success', success:true})
+                            } 
                         })
                     } 
                     else res.json({messages: 'wrong, code not matching', success: false })

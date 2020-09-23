@@ -41,12 +41,21 @@
                   </div>
                   <form action="/login" method="POST" class="user" autocomplete="on">
                     <div class="form-group">
-                      <% for (let message of messages) { %>
-                        <div class="alert alert-danger">
-                          <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-                          <strong>Opps!</strong> <%= message %>
-                        </div>
-                      <% }%>
+                      <% if (type) { %>
+                        <% for (let message of messages) { %>
+                          <div class="alert alert-success">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>success!</strong> <%= message %>
+                          </div>
+                        <% }%>
+                      <% } else {%>
+                        <% for (let message of messages) { %>
+                          <div class="alert alert-danger">
+                            <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                            <strong>Opps!</strong> <%= message %>
+                          </div>
+                        <% }%>
+                    <% } %>
                     </div>
 
                     <div class="form-group">

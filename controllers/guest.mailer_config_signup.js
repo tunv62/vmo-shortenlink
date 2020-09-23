@@ -2,13 +2,13 @@ const nodemailer = require('nodemailer')
 const account = require('../models/account')
 
 function makeid(length) {
-    var result = '';
-    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    var charactersLength = characters.length;
+    var result = ''
+    var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    var charactersLength = characters.length
     for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        result += characters.charAt(Math.floor(Math.random() * charactersLength))
     }
-    return result;
+    return result
 }
 
 module.exports = (req, res) => {
@@ -24,8 +24,8 @@ module.exports = (req, res) => {
             // do not fail on invalid certs
             rejectUnauthorized: false
         }
-    });
-    var content = '';
+    })
+    var content = ''
     const code = makeid(6)
     content += `
         <div style="padding: 10px; background-color: #003375">
@@ -35,7 +35,7 @@ module.exports = (req, res) => {
                 <span style="color: black">expire: 5 minutes</span>
             </div>
         </div>
-    `;
+    `
     var mainOptions = { // thiết lập đối tượng, nội dung gửi mail
         from: 'shortenLink',
         to: req.body.email,
@@ -58,7 +58,7 @@ module.exports = (req, res) => {
                     req.flash('error', 'can not send mail')
                     return res.redirect('/signup')
                 } else {
-                    req.flash('success', req.body.email)
+                    req.flash('info', req.body.email)
                     res.redirect('/signup/confirm-register')
                 }
             })

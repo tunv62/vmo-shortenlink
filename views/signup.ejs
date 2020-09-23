@@ -39,7 +39,7 @@
               <form class="user" action="/signup" method="POST">
                 <div class="form-group">
                   <% for (let message of messages) { %>
-                    <div class="alert alert-danger">
+                    <div class="alert alert-danger rounded-pill fade show">
                       <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
                       <strong>Opps!</strong> <%= message %>
                     </div>
@@ -56,7 +56,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <input type="email" class="form-control form-control-user" name="email" id="exampleInputEmail"
+                  <input type="text" class="form-control form-control-user" name="email" id="exampleInputEmail"
                     placeholder="Email Address" autocomplete="email">
                 </div>
                 <div class="form-group row">

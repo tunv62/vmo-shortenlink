@@ -7,7 +7,6 @@ module.exports = (req, res, next)=>{
         for ( let data of errors){
             messages.push(data.msg)
         }
-        res.render('login', { messages: messages })
+        res.render('login', { messages: messages, type: false})
     }else next()
-
 }
