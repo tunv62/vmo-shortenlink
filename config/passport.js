@@ -58,7 +58,7 @@ passport.use('local.login',
                 else if ( acc.local.is_active === false) return done(null, false, {message: 'account is not active, create new account.'})
                 else if ( acc.local.is_block === true ) return done(null, false, { message: 'your account was blocked'})
                 else if ( acc.local.password === password) return done(null, acc)
-                else return done(null, false, { message: 'password wrong'})
+                else return done(null, false, { message: 'your email or password wrong'})
             })
             .catch(err => done(err))
     })

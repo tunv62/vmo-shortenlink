@@ -20,10 +20,7 @@ module.exports = (req, res) => {
             user: process.env.EMAIL_SEND, //Tài khoản gmail vừa tạo
             pass: process.env.EMAIL_PASSWORD_SEND //Mật khẩu tài khoản gmail vừa tạo
         },
-        tls: {
-            // do not fail on invalid certs
-            rejectUnauthorized: false
-        }
+        tls: { rejectUnauthorized: false }
     })
     var content = ''
     const code = makeid(6)
@@ -49,13 +46,13 @@ module.exports = (req, res) => {
     }
     account.findOneAndUpdate(filter, update, (err, doc) => {
         if (err) {
-            req.flash('error', 'error can not ...')
+            req.flash('error', 'email is exist or try again')
             return res.redirect('/signup')
         }
         if (doc) {
             transporter.sendMail(mainOptions, function (err, info) {
                 if (err) {
-                    req.flash('error', 'can not send mail')
+                    req.flash('error', 'email is exist or try again')
                     return res.redirect('/signup')
                 } else {
                     req.flash('info', req.body.email)

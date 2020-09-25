@@ -5,12 +5,12 @@ module.exports = (req, res, next) => {
         'local.email': req.body.email
     }, function (err, acc) {
         if (err) {
-            req.flash('error', 'Error impossible insert data')
+            req.flash('error', 'email is exist or try again')
             return res.redirect('/signup')
         }
         if (acc) {
             if (acc.local.is_active === true) {
-                req.flash('error', 'email is exist')
+                req.flash('error', 'email is exist or try again')
                 return res.redirect('/signup')
             } else {
                 acc.local.email = req.body.email
@@ -19,7 +19,7 @@ module.exports = (req, res, next) => {
                 acc.info.lastname = req.body.lastname
                 acc.save(function (err) {
                     if (err) {
-                        req.flash('error', 'Error impossible insert data')
+                        req.flash('error', 'email is exist or try again')
                         res.redirect('/signup')
                     } else next()
                 })
@@ -30,25 +30,12 @@ module.exports = (req, res, next) => {
             newAcc.local.password = req.body.password
             newAcc.info.firstname = req.body.firstname
             newAcc.info.lastname = req.body.lastname
-
             newAcc.save(function (err) {
                 if (err) {
-                    req.flash('error', 'Error impossible insert data')
+                    req.flash('error', 'email is exist or try again')
                     res.redirect('/signup')
                 } else next()
             })
         }
-        // account.create({
-        //     'local.email': req.body.email,
-        //     'local.password': req.body.password,
-        //     'info.firstname': req.body.firstname,
-        //     'info.lastname': req.body.lastname
-        // }, function(err){
-        //     if(err) {
-        //         req.flash('error', 'Error impossible insert data')
-        //         res.redirect('/signup')
-        //     }else res.redirect('/')
-        // })
-
     })
 }
