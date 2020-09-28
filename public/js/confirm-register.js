@@ -26,7 +26,7 @@ $(document).ready(function(){
                 let { messages, success} = dt
                 setTimeout(() => {
                     enableBtn('#btn-confirm', 'Confirm Register')
-                }, 500);
+                }, 300);
                 if (success) window.location.href = '/login'
                 else {
                     $('.alert-danger').show()

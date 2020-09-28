@@ -27,6 +27,8 @@ const forgotPasswordController = require('./controllers/user.forgot_password')
 const forgotErrorValidateController = require('./controllers/user.forgot_error')
 const checkParamsResetPasswordController = require('./controllers/user.check_params_reset_password')
 const resetPageController = require('./controllers/user.reset_page')
+const getShortLinkGuest = require('./controllers/guest.get_short_link')
+const accessShortLink = require('./controllers/access_short_link')
 
 const app = express()
 
@@ -83,5 +85,20 @@ app.get('/reset/:token', checkParamsResetPasswordController, resetPageController
 
 app.post('/reset/:token', checkParamsResetPasswordController, validate.validateResetPassword(), 
             resetErrorValidateController, resetPasswordController)
+
+// app.get('/short-link-guest', (req, res)=>{
+//     console.log('check ---------')
+//     res.writeHead(301,{ Location: 'www.medium.com'})
+//     res.end()
+// })
+
+app.post('/short-link-guest', getShortLinkGuest)
+
+app.get('/:shortenlink', accessShortLink)
+
+app.get('/logout', (req, res) => {
+    req.logout()
+    res.redirect('/')
+})
 
 app.get('/page-not-found', (req, res) => { res.render('page_not_found') })
