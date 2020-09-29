@@ -6,9 +6,13 @@ module.exports = (req, res)=>{
     if ( !r.test(shortUrl))  res.render('page_not_found')
     else {
         shortlink.findOne({ shortUrl: shortUrl }, (err, link)=>{
-            if ( err || !link ) return res.render('page_not_found')
+            if ( err || !link) return res.render('page_not_found')
+            if ( link.isBlock ) return res.render('page_not_found')
+            if ( link.expire ) 
+                if ( link.expire < Date.now() ) return res.render('page_not_found')
+            if ( link.password ) 
+                return res.render('confirm_password_access_link', { shortUrl: shortUrl})
             link.clicks += 1
-            console.log(typeof link.clicks)
             link.save(err =>{
                 if (err) return res.render('page_not_found')
                 res.writeHead(301,{ Location: link.longUrl })

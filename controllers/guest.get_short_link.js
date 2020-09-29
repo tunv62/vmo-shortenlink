@@ -3,7 +3,7 @@ const cryptoRandomString = require('crypto-random-string')
 
 module.exports = (req, res) => {
     var { longLink } = req.body
-    var r = /^(?:http(?:s)?:\/\/)[-a-zA-Z0-9@:%_\+.~#?&//=]{5,2000}$/i
+    var r = /^(?:http(?:s)?:\/\/)[-a-zA-Z0-9@:%_\+\)\(,.~#?&//=]{5,2000}$/i
     if (!r.test(longLink)) res.json({ message: 'link invalid', success: false })
     else {
         let char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'

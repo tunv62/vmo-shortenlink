@@ -13,10 +13,10 @@ const linkSchema = mongoose.Schema({
     },
     password: String,
     expire: Date,
-    isExpire: {
-        type: Boolean,
-        default: false
-    },
+    // isExpire: {
+    //     type: Boolean,
+    //     default: false
+    // },
     createAt: {
         type: Date,
         default: new Date()

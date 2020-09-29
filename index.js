@@ -29,6 +29,10 @@ const checkParamsResetPasswordController = require('./controllers/user.check_par
 const resetPageController = require('./controllers/user.reset_page')
 const getShortLinkGuest = require('./controllers/guest.get_short_link')
 const accessShortLink = require('./controllers/access_short_link')
+const userGetShortLink = require('./controllers/user.get_short_link')
+const validateUserGetShortLink = require('./controllers/user.validate_get_short_link')
+const isAuthenticated = require('./middleware/isAuthen')
+const accessShortLinkPassword = require('./controllers/access_short_link_password')
 
 const app = express()
 
@@ -51,7 +55,10 @@ app.use(passport.session())
 
 app.listen(4000, () => { console.log('server listening on port 4000') })
 
-app.get('/', (req, res) => { res.render('home') })
+app.get('/', (req, res) => {
+    if (req.user) res.render('home',{logged: true})
+    else res.render('home', {logged: false}) 
+})
 
 app.get('/signup', signupController)
 
@@ -86,19 +93,27 @@ app.get('/reset/:token', checkParamsResetPasswordController, resetPageController
 app.post('/reset/:token', checkParamsResetPasswordController, validate.validateResetPassword(), 
             resetErrorValidateController, resetPasswordController)
 
-// app.get('/short-link-guest', (req, res)=>{
-//     console.log('check ---------')
-//     res.writeHead(301,{ Location: 'www.medium.com'})
-//     res.end()
-// })
-
 app.post('/short-link-guest', getShortLinkGuest)
 
-app.get('/:shortenlink', accessShortLink)
+app.post('/short-link-user', isAuthenticated, validateUserGetShortLink, userGetShortLink)
+
+app.post('/option-advanced', (req, res)=>{
+    if (req.user) res.json({ logged: true })
+    else res.json({ logged: false })
+})
+
+app.get('/password-access-link', (req, res)=>{
+    res.render('confirm_password_access_link', { shortUrl: 'wrong'})
+})
+
+app.post('/password-access-link', accessShortLinkPassword)
 
 app.get('/logout', (req, res) => {
     req.logout()
     res.redirect('/')
+    res.end()
 })
 
 app.get('/page-not-found', (req, res) => { res.render('page_not_found') })
+
+app.get('/:shortenlink', accessShortLink)
