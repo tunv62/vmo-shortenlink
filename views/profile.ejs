@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>SB Admin 2 - Login</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link
+    href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+    rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/controll.css">
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-10">
+        <h1>Information</h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-3">
+        <!--left col-->
+        <div class="text-center">
+          <!-- <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="width: 200px; height: 200px;"
+            class="avatar img-circle img-thumbnail" alt="avatar"> -->
+            <i class="fa fa-user fa-10x avatar" style="height: 170px; margin-top: 20px;" aria-hidden="true"></i>
+          <div class="input-file-container">
+            <input class="input-file file-upload" id="my-file" type="file">
+            <label tabindex="0" for="my-file" class="input-file-trigger">PHOTO</label>
+          </div>
+        </div>
+        </hr><br>
+        <ul class="list-group">
+          <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+        </ul>
+      </div>
+      <!--/col-3-->
+      <div class="col-sm-9">
+        <ul class="nav nav-tabs" role="tablist">
+          <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#profile">profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#change-password">change password</a>
+          </li>
+        </ul>
+
+
+        <div class="tab-content">
+          <div class="container tab-pane active" id="profile">
+            <hr>
+            <div >
+              <div class="form-group">
+                <div class="col-xs-6">
+                  <label for="first_name">
+                    <h4>First name</h4>
+                  </label>
+                  <input type="text" class="form-control" name="first_name" id="first_name" placeholder="first name"
+                    title="enter your first name if any.">
+                </div>
+              </div>
+              <div class="form-group">
+
+                <div class="col-xs-6">
+                  <label for="last_name">
+                    <h4>Last name</h4>
+                  </label>
+                  <input type="text" class="form-control" name="last_name" id="last_name" placeholder="last name"
+                    title="enter your last name if any.">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-6">
+                  <label for="description">
+                    <h4>description</h4>
+                  </label>
+                  <textarea class="form-control" id="description" rows="3"></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <br>
+                  <button id="btn-update-profile" class="btn btn-lg btn-success">Save</button>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+          </div>
+          <!--/tab-pane-->
+          <div class="container tab-pane" id="change-password">
+
+            <hr>
+            <div class="form" action="##" method="post" id="registrationForm">
+              <div class="form-group">
+                <div class="col-xs-6">
+                  <label for="currentPassword">
+                    <h4>current password</h4>
+                  </label>
+                  <input type="password" class="form-control" name="currentPassword" id="current-password" placeholder="current password"
+                    title="enter your password.">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-6">
+                  <label for="newPassword">
+                    <h4>New Password</h4>
+                  </label>
+                  <input type="password" class="form-control" name="newPassword" id="new-password" placeholder="new password"
+                    title="enter your password.">
+                </div>
+              </div>
+              <div class="form-group">
+
+                <div class="col-xs-6">
+                  <label for="repeatPassword">
+                    <h4>repeat password</h4>
+                  </label>
+                  <input type="password" class="form-control" name="repeatPassword" id="repeat-password" placeholder="repeat password"
+                    title="enter your password.">
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-xs-12">
+                  <br>
+                  <button class="btn btn-lg btn-success">Save</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <!--/tab-pane-->
+        </div>
+        <!--/tab-pane-->
+      </div>
+      <!--/tab-content-->
+
+    </div>
+    <!--/col-9-->
+  </div>
+  <!--/row-->
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <!-- <script src="/js/sb-admin-2.min.js"></script> -->
+  <script src="/js/profile.js"></script>
+
+</body>
+
+</html>

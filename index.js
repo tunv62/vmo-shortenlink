@@ -33,6 +33,7 @@ const userGetShortLink = require('./controllers/user.get_short_link')
 const validateUserGetShortLink = require('./controllers/user.validate_get_short_link')
 const isAuthenticated = require('./middleware/isAuthen')
 const accessShortLinkPassword = require('./controllers/access_short_link_password')
+const userGetProfile = require('./controllers/user.get_profile')
 
 const app = express()
 
@@ -113,6 +114,13 @@ app.get('/logout', (req, res) => {
     res.redirect('/')
     res.end()
 })
+
+app.get('/controll', (req, res)=>{
+    res.render('controll')
+    // res.render('profile')
+})
+
+app.get('/auth/profile', userGetProfile)
 
 app.get('/page-not-found', (req, res) => { res.render('page_not_found') })
 

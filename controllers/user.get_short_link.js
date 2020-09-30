@@ -2,11 +2,11 @@ const shortlink = require('../models/shortlink')
 const cryptoRandomString = require('crypto-random-string')
 
 module.exports = (req, res) => {
-    console.log('in create ')
     let { longLink, password, customLink, expire, selected } = req.body
-    console.log(typeof expire)
-    if (customLink)
+    if (customLink){
+        console.log('-run')
         createShortLink(customLink)
+    }
     else {
         let char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
         let shortUrl = cryptoRandomString({ length: 7, characters: char })
@@ -16,7 +16,7 @@ module.exports = (req, res) => {
     function createShortLink(shortUrl) {
         shortlink.findOne({ shortUrl: shortUrl }, (err, link) => {
             if (err) return res.json({ message: 'link illegal or try again', success: false })
-            if (link) return res.json({ message: 'link exits, try again', success: false })
+            if (link) return res.json({ message: 'link address existed, try again', success: false })
             let newLink = new shortlink()
             newLink.creator = req.user._id
             newLink.longUrl = longLink
@@ -26,7 +26,6 @@ module.exports = (req, res) => {
                 if (selected === '0') {
                     let date = new Date()
                     date.setMinutes(date.getMinutes() + parseInt(expire))
-                    console.log(date)
                     newLink.expire = date
                 } else if (selected === '1') {
                     let date = new Date()
