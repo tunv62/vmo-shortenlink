@@ -35,16 +35,18 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul class="navbar-nav ml-auto">
-
+          <% if (!logged){%>
           <li class="nav-item">
             <a class="nav-link text-info" href="/signup">sign up</a>
           </li>
           <li class="nav-item">
             <a class="nav-link text-info" href="/login">sign in</a>
           </li>
+          <% } else { %>
           <li class="nav-item">
-            <a class="nav-link text-info" href="/logout">logout</a>
+            <a class="nav-link text-info" href="/logout">logout fuck</a>
           </li>
+          <% } %>
         </ul>
       </div>
     </div>
@@ -68,7 +70,7 @@
             </div>
           </div> -->
           <div class="row" id="shorten-link">
-            <span class="mx-auto mb-2"><i id="btn-copy" style="cursor:pointer;" class="far fa-copy"></i> <span id="content-copy">content ok</span> </span>
+            <!-- <p class="mx-auto mb-2"><i id="btn-copy" style="cursor:pointer;" class="far fa-copy fa-lg"></i> <span id="content-copy">content ok</span> </p> -->
           </div>
           <div role="form">
             <div class="row">
@@ -80,16 +82,18 @@
               </div>
               <div class="col-12 col-md-3">
                 <div class="form-group">
+                  <% if (logged){%>
+                  <button id="get-short-link-user" class="btn btn-block btn-lg btn-primary">shorter</button>
+                  <% } else { %>
                   <button id="get-short-link-guest" class="btn btn-block btn-lg btn-primary">shorter</button>
+                  <% } %>
                 </div>
               </div>
             </div>
-            <!-- <div class="col-xs-3 col-sm-3 col-md-3">
-              <hr class="hr-or">
-              <span class="span-or text-danger">advanced options</span>
-            </div> -->
-            <div>
-              <div class="col-xs-6 col-sm-6 col-md-6">
+            <hr class="hr-or">
+            <div id="option-div" class="text-left">
+              <span class="bg-warning text-dark text-uppercase" style="cursor:pointer;" id="option-advanced">option advanced</span>
+              <!-- <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                   <input type="text" name="password" id="password" class="form-control input-sm" placeholder="password">
                 </div>
@@ -100,15 +104,30 @@
                     placeholder="custom address">
                 </div>
               </div>
-              <div class="col-xs-2 col-sm-2 col-md-2">
-                <div class="form-group">
-                  <input type="text" name="expire" id="expire" class="form-control input-sm" placeholder="minutes">
+              <div class="col-xs-5 col-sm-5 col-md-5">
+                <div class="row">
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <input type="text" name="expire" id="expire" class="form-control input-sm" placeholder="times">
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <select class="form-control" id="select-option">
+                        <option value="0">minutes</option>
+                        <option value="1">hours</option>
+                        <option value="2">day</option>
+                      </select>
+                    </div>
+                  </div>
                 </div>
-              </div>
+              </div> -->
             </div>
-
           </div>
-
+          <!-- <div class="col-md-12 see-more">
+            <hr class="hr-or">
+            <span class="span-or" id="see_more">see more.....</span>
+          </div> -->
 
           <!-- </form> -->
         </div>
