@@ -1,54 +1,77 @@
-$(document).ready(function() {
-    var readURL = function(input) {
-        if (input.files && input.files[0]) {
-            var reader = new FileReader()
-            reader.onload = function (e) {
-                $('.avatar').replaceWith(`<img src="`+ e.target.result +`" style="height: 200px;"
+$(document).ready(function () {
+	var readURL = function (input) {
+		if (input.files && input.files[0]) {
+			var reader = new FileReader()
+			reader.onload = function (e) {
+				$('.avatar').replaceWith(`<img src="` + e.target.result + `" style="height: 200px;"
                                         class="avatar rounded-circle" alt="avatar">`)
-                // $('.avatar').attr('src', e.target.result)
-            }
-            reader.readAsDataURL(input.files[0])
-        }
-    }
+				// $('.avatar').attr('src', e.target.result)
+			}
+			reader.readAsDataURL(input.files[0])
+		}
+	}
 
-    $(document).on('change', '.file-upload', function(){
-        readURL(this)
-    })
+	$(document).on('change', '.file-upload', function () {
+		readURL(this)
+	})
 
-    $(document).on('click', '#btn-show-profile', function(){
-        $.ajax({
-          url: '/auth/profile',
-          method: 'GET',
-          dataType: 'json',
-          success: function(dt){
-            let { firstname,
-              lastname,
-              description } = dt
-              console.log(dt)
-            if (description)
-              $('#body-content').html(formProfile(firstname, lastname, description))
-            else $('#body-content').html(formProfile(firstname, lastname, ''))
-          },
-          error: function(stt, err){
-            console.log(stt, err)
-          }
-        })
-    })
-    $(document).on('click', '#btn-update-profile', function(){
-      
-      $.ajax({
-        url: '/auth/profile',
-        method: 'POST',
-        dataType: 'json',
-        data: {
-
-        }
-      })
-    })
+	$(document).on('click', '#btn-show-profile', function () {
+		$.ajax({
+			url: '/auth/profile',
+			method: 'GET',
+			dataType: 'json',
+			success: function (dt) {
+				let { firstname,
+					lastname,
+					description } = dt
+				console.log(dt)
+				$('#body-content').html(formProfile(firstname, lastname, checkUnderfined(description)))
+				// if (description)
+				// 	$('#body-content').html(formProfile(firstname, lastname, description))
+				// else $('#body-content').html(formProfile(firstname, lastname, ''))
+			},
+			error: function (stt, err) {
+				console.log(stt, err)
+			}
+		})
+	})
+	$(document).on('click', '#confirm-update-profile', function () {
+		let firstname = $('#first_name').val()
+		let lastname = $('#last_name').val()
+		let description = $('#description').text()
+		$.ajax({
+			url: '/auth/profile',
+			method: 'POST',
+			dataType: 'json',
+			data: {
+				firstname: firstname,
+				lastname: lastname,
+				description: description
+			},
+			success: function (dt) {
+				let { message, success } = dt
+				if (success) {
+					$('#status-update').text(message)
+					$('#status-update').attr('class', 'text-info')
+				} else {
+					$('#status-update').text(message)
+					$('#status-update').attr('class', 'text-danger')
+				}
+			},
+			error: function (stt, err) {
+				console.log(stt, err)
+			}
+		})
+	})
 })
 
-function formProfile(firstname, lastname, description){
-    return `
+function checkUnderfined(check){
+	if (check) return check
+	else return ''
+}
+
+function formProfile(firstname, lastname, description) {
+	return `
     <div class="container">
     <div class="row">
       <div class="col-sm-10">
@@ -97,7 +120,7 @@ function formProfile(firstname, lastname, description){
                   <label for="first_name">
                     <h4>First name</h4>
                   </label>
-                  <input type="text" class="form-control" name="first_name" id="first_name" value="`+ firstname +`" placeholder="first name"
+                  <input type="text" class="form-control" name="first_name" id="first_name" value="`+ firstname + `" placeholder="first name"
                     title="enter your first name if any.">
                 </div>
               </div>
@@ -107,7 +130,7 @@ function formProfile(firstname, lastname, description){
                   <label for="last_name">
                     <h4>Last name</h4>
                   </label>
-                  <input type="text" class="form-control" name="last_name" id="last_name" value="`+ lastname +`" placeholder="last name"
+                  <input type="text" class="form-control" name="last_name" id="last_name" value="`+ lastname + `" placeholder="last name"
                     title="enter your last name if any.">
                 </div>
               </div>
@@ -116,14 +139,17 @@ function formProfile(firstname, lastname, description){
                   <label for="description">
                     <h4>description</h4>
                   </label>
-                  <textarea class="form-control" id="description" rows="3">`+ description +`</textarea>
+                  <textarea class="form-control" id="description" rows="3">`+ description + `</textarea>
                 </div>
               </div>
               <div class="form-group">
                 <div class="col-xs-12">
                   <br>
-                  <button id="btn-update-profile" class="btn btn-lg btn-success">Save</button>
+                  <button id="btn-update-profile" class="btn btn-lg btn-success" data-toggle="modal" data-target="#updateModal">Save</button>
                 </div>
+              </div>
+              <div class="form-group">
+                <strong id="status-update"></strong>
               </div>
             </div>
 
@@ -166,7 +192,7 @@ function formProfile(firstname, lastname, description){
               <div class="form-group">
                 <div class="col-xs-12">
                   <br>
-                  <button class="btn btn-lg btn-success">Save</button>
+                  <button id="btn-change-password" class="btn btn-lg btn-success" data-toggle="modal" data-target="#changePasswordModal">Save</button>
                 </div>
               </div>
             </div>

@@ -43,8 +43,11 @@
             <a class="nav-link text-info" href="/login">sign in</a>
           </li>
           <% } else { %>
+            <li class="nav-item">
+              <a class="nav-link text-info" href="/auth/manager">Manager</a>
+            </li>
           <li class="nav-item">
-            <a class="nav-link text-info" href="/logout">logout</a>
+            <a class="nav-link text-info" href="/logout">Logout</a>
           </li>
           <% } %>
         </ul>
@@ -57,10 +60,10 @@
   <header class="masthead text-white text-center">
     <div class="overlay"></div>
     <div class="container">
-      <div class="row">
+      <div class="row" id="demo">
         <div class="col-xl-9 mx-auto">
           <h2 class="mb-3">Build a shortenLink page for your business and everyone</h2>
-          <h4 class="mb-5 text-warning">you have to login to set password, expire, custom address</h4>
+          <h4 class="mb-5">you have to login to set password, expire, custom address</h4>
           <!-- <h3 class="mb-2">you have to login to set password, expire, custom address</h3> -->
         </div>
         <div class="col-md-10 col-lg-8 col-xl-7 mx-auto">
@@ -91,9 +94,11 @@
               </div>
             </div>
             <hr class="hr-or">
-            <div id="option-div" class="text-left">
+            <div class="text-left">
               <span class="bg-warning text-dark text-uppercase" style="cursor:pointer;" id="option-advanced">option advanced</span>
-              <!-- <div class="col-xs-6 col-sm-6 col-md-6">
+            </div>
+            <div id="option-div" class="text-left">
+               <!-- <div class="col-xs-6 col-sm-6 col-md-6">
                 <div class="form-group">
                   <input type="text" name="password" id="password" class="form-control input-sm" placeholder="password">
                 </div>
