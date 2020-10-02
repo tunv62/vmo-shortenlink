@@ -1,6 +1,5 @@
 
 module.exports = (req, res, next)=>{
-    console.log('in validate')
     let regExLonglink = /^(?:http(?:s)?:\/\/)[-a-zA-Z0-9@:%_\+\)\(,.~#?&//=]{5,2000}$/i
     let regExPassword = /^[a-zA-Z0-9]{5,50}$/i
     let regExCustomLink = /^[-a-zA-Z0-9_\+\.]{7,100}$/i

@@ -31,8 +31,11 @@ const getShortLinkGuest = require('./controllers/guest.get_short_link')
 const accessShortLink = require('./controllers/access_short_link')
 const userGetShortLink = require('./controllers/user.get_short_link')
 const validateUserGetShortLink = require('./controllers/user.validate_get_short_link')
-const isAuthenticated = require('./middleware/isAuthen')
+const isAuthenticatedRedirect = require('./middleware/isAuthenRedirect')
+const isAuthenResponseXml = require('./middleware/isAuthenResponseXml')
 const accessShortLinkPassword = require('./controllers/access_short_link_password')
+const userGetProfile = require('./controllers/user.get_profile')
+const getInfoShortlink = require('./controllers/user.get_info_shortlink')
 
 const app = express()
 
@@ -95,7 +98,7 @@ app.post('/reset/:token', checkParamsResetPasswordController, validate.validateR
 
 app.post('/short-link-guest', getShortLinkGuest)
 
-app.post('/short-link-user', isAuthenticated, validateUserGetShortLink, userGetShortLink)
+app.post('/short-link-user', isAuthenResponseXml, validateUserGetShortLink, userGetShortLink)
 
 app.post('/option-advanced', (req, res)=>{
     if (req.user) res.json({ logged: true })
@@ -113,6 +116,19 @@ app.get('/logout', (req, res) => {
     res.redirect('/')
     res.end()
 })
+
+app.get('/auth/manager', isAuthenticatedRedirect,(req, res)=>{
+    res.render('manager')
+    // res.render('profile')
+})
+
+app.get('/auth/profile', isAuthenResponseXml, userGetProfile)
+
+app.post('/auth/profile', isAuthenResponseXml,(req, res)=>{
+    res.json({ message: 'status ok' ,success: true})
+})
+
+app.get('/auth/user/get-shortenlink', isAuthenResponseXml, getInfoShortlink)
 
 app.get('/page-not-found', (req, res) => { res.render('page_not_found') })
 
