@@ -29,7 +29,7 @@
   <div id="wrapper">
 
     <!-- Sidebar -->
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-primary sidebar sidebar-dark accordion" id="accordionSidebar">
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon rotate-n-15">
@@ -53,6 +53,13 @@
       <div class="sidebar-heading">
         Interface
       </div>
+
+      <li class="nav-item">
+        <a class="nav-link" href="/">
+          <i class="fas fa-fw fa-home"></i>
+          <span>Home</span></a>
+      </li>
+
       <!-- Nav Item - Charts -->
       <li class="nav-item">
         <a class="nav-link" href="#">
@@ -229,6 +236,97 @@
       </div>
     </div>
   </div>
+
+  <!-- update link -->
+  <div class="modal fade" id="UpdateLinkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Link</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div role="form">
+
+            <div class="form-group">
+              <label for="shortUrl">shortUrl:</label>
+              <input type="text" class="form-control input-sm" name="shortUrl" id="shortUrl"
+                placeholder="enter shortUrl" disabled>
+            </div>
+            <div class="form-group">
+              <label for="longUrl">longUrl:</label>
+              <input type="text" class="form-control input-sm" name="longUrl" id="longUrl" disabled>
+            </div>
+            <!-- <div class="form-group">
+              <label for="status">status:</label>
+              <div class="form-control">
+                <span name="status" class="bg-info text-dark">Active</span>
+              </div>
+            </div> -->
+
+            <div class="col-xs-5 col-sm-5 col-md-5">
+              <div class="row">
+                <div class="col-xs-4 col-sm-4 col-md-4">
+                  <div class="form-group">
+                    Status:
+                  </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group" id="status-link">
+                    <!-- <span name="status" class="bg-info text-dark">Active</span> -->
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xs-6 col-sm-6 col-md-6">
+              <label for="password">Password:</label>
+              <div class="form-group">
+                <input type="text" name="password" id="password" class="form-control input-sm" placeholder="password">
+              </div>
+            </div>
+            <div class="col-xs-6 col-sm-6 col-md-6">
+              <label for="custom-link">custom link:</label>
+              <div class="form-group">
+                <input type="text" name="custom-link" id="custom-link" class="form-control input-sm"
+                  placeholder="custom address">
+              </div>
+            </div>
+            <div class="col-xs-5 col-sm-5 col-md-5">
+              <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group">
+                    <input type="text" name="expire" id="expire" class="form-control input-sm" placeholder="times">
+                  </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 col-md-6">
+                  <div class="form-group">
+                    <select class="form-control" id="select-option">
+                      <option value="0">minutes</option>
+                      <option value="1">hours</option>
+                      <option value="2">day</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <strong id="update-show-error" class="text-danger"></strong>
+            </div>
+            <hr>
+          </div> 
+          <!-- end form -->
+        </div>
+        <!-- end modal-body -->
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button id="confirm-update-link" class="btn btn-primary">Change</button>
+        </div>
+      </div>
+    </div>
+  </div> <!-- end update link -->
 
   <!-- Bootstrap core JavaScript-->
   <script src="/vendor/jquery/jquery.min.js"></script>

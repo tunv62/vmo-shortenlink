@@ -8,8 +8,9 @@ module.exports = (req, res, next)=>{
     let { longLink, password, customLink, expire, selected} = req.body
     if ( !regExLonglink.test(longLink) ) 
         return res.json({ message: 'link illegal', success: false })
-    if ( !regExOption.test(selected))
-        return res.json({ message: 'option illegal', success: false })
+    if ( selected )
+        if ( !regExOption.test(selected))
+            return res.json({ message: 'option illegal', success: false })
     if ( password ) 
         if ( !regExPassword.test(password)) 
             return res.json({ message: 'password illegal', success: false })

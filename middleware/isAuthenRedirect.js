@@ -3,6 +3,6 @@ module.exports = (req, res, next) => {
         next()
     } else {
         req.flash('error', 'not have access, you have to login')
-        res.redirect('/')
+        res.redirect('/login')
     }
 }
