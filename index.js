@@ -36,6 +36,9 @@ const isAuthenResponseXml = require('./middleware/isAuthenResponseXml')
 const accessShortLinkPassword = require('./controllers/access_short_link_password')
 const userGetProfile = require('./controllers/user.get_profile')
 const getInfoShortlink = require('./controllers/user.get_info_shortlink')
+const isAuthenGetShortLink = require('./controllers/user.authen_get_short_link')
+const validateUpdateInfoLink = require('./controllers/user.validate_update_info_link')
+const updateInfoLink = require('./controllers/user.update_info_link')
 
 const app = express()
 
@@ -98,18 +101,18 @@ app.post('/reset/:token', checkParamsResetPasswordController, validate.validateR
 
 app.post('/short-link-guest', getShortLinkGuest)
 
-app.post('/short-link-user', isAuthenResponseXml, validateUserGetShortLink, userGetShortLink)
+app.post('/short-link-user', isAuthenGetShortLink, validateUserGetShortLink, userGetShortLink)
 
 app.post('/option-advanced', (req, res)=>{
     if (req.user) res.json({ logged: true })
     else res.json({ logged: false })
 })
 
-app.get('/password-access-link', (req, res)=>{
-    res.render('confirm_password_access_link', { shortUrl: 'wrong'})
-})
+// app.get('/password-access-link', (req, res)=>{
+//     res.render('confirm_password_access_link', { shortUrl: 'wrong'})
+// })
 
-app.post('/password-access-link', accessShortLinkPassword)
+app.post('/password-access-link', accessShortLinkPassword, validateUpdateInfoLink, updateInfoLink)
 
 app.get('/logout', (req, res) => {
     req.logout()
@@ -128,7 +131,9 @@ app.post('/auth/profile', isAuthenResponseXml,(req, res)=>{
     res.json({ message: 'status ok' ,success: true})
 })
 
-app.get('/auth/user/get-shortenlink', isAuthenResponseXml, getInfoShortlink)
+app.get('/auth/user/get-info-shortenlink', isAuthenResponseXml, getInfoShortlink)
+
+app.put('/auth/user/update-info-shortenlink', isAuthenResponseXml, )
 
 app.get('/page-not-found', (req, res) => { res.render('page_not_found') })
 

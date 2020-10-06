@@ -1,77 +1,73 @@
 $(document).ready(function () {
-	var readURL = function (input) {
-		if (input.files && input.files[0]) {
-			var reader = new FileReader()
-			reader.onload = function (e) {
-				$('.avatar').replaceWith(`<img src="` + e.target.result + `" style="height: 200px;"
+    var readURL = function (input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader()
+            reader.onload = function (e) {
+                $('.avatar').replaceWith(`<img src="` + e.target.result + `" style="height: 200px;"
                                         class="avatar rounded-circle" alt="avatar">`)
-				// $('.avatar').attr('src', e.target.result)
-			}
-			reader.readAsDataURL(input.files[0])
-		}
-	}
+                // $('.avatar').attr('src', e.target.result)
+            }
+            reader.readAsDataURL(input.files[0])
+        }
+    }
 
-	$(document).on('change', '.file-upload', function () {
-		readURL(this)
-	})
+    $(document).on('change', '.file-upload', function () {
+        readURL(this)
+    })
 
-	$(document).on('click', '#btn-show-profile', function () {
-		$.ajax({
-			url: '/auth/profile',
-			method: 'GET',
-			dataType: 'json',
-			success: function (dt) {
-				let { firstname,
-					lastname,
-					description } = dt
-				console.log(dt)
-				$('#body-content').html(formProfile(firstname, lastname, checkUnderfined(description)))
-				// if (description)
-				// 	$('#body-content').html(formProfile(firstname, lastname, description))
-				// else $('#body-content').html(formProfile(firstname, lastname, ''))
-			},
-			error: function (stt, err) {
-				console.log(stt, err)
-			}
-		})
-	})
-	$(document).on('click', '#confirm-update-profile', function () {
-		let firstname = $('#first_name').val()
-		let lastname = $('#last_name').val()
-		let description = $('#description').text()
-		$.ajax({
-			url: '/auth/profile',
-			method: 'POST',
-			dataType: 'json',
-			data: {
-				firstname: firstname,
-				lastname: lastname,
-				description: description
-			},
-			success: function (dt) {
-				let { message, success } = dt
-				if (success) {
-					$('#status-update').text(message)
-					$('#status-update').attr('class', 'text-info')
-				} else {
-					$('#status-update').text(message)
-					$('#status-update').attr('class', 'text-danger')
-				}
-			},
-			error: function (stt, err) {
-				console.log(stt, err)
-			}
-		})
-	})
+    $(document).on('click', '#btn-show-profile', function () {
+        $.ajax({
+            url: '/auth/profile',
+            method: 'GET',
+            dataType: 'json',
+            success: function (dt) {
+                let { message, success } = dt
+                if (success) {
+                    $('#body-content').html(formProfile(message.firstname
+                        , message.lastname, checkUnderfined(message.description)))
+                } else window.location.href = '/login'
+            },
+            error: function (stt, err) {
+                console.log(stt, err)
+            }
+        })
+    })
+    $(document).on('click', '#confirm-update-profile', function () {
+        let firstname = $('#first_name').val()
+        let lastname = $('#last_name').val()
+        let description = $('#description').text()
+        $.ajax({
+            url: '/auth/profile',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                firstname: firstname,
+                lastname: lastname,
+                description: description
+            },
+            success: function (dt) {
+                let { message, success } = dt
+                if (success) {
+                    $('#status-update').text(message)
+                    $('#status-update').attr('class', 'text-info')
+                    // $('#status-update').text(message)
+                    // $('#status-update').attr('class', 'text-danger')
+                } else window.location.href = '/login'
+            },
+            error: function (stt, err) {
+                console.log(stt, err)
+            }
+        })
+    })
 })
 
-function checkUnderfined(check){
-	if (check) return check
-	else return ''
+function checkUnderfined(check) {
+    if (check) return check
+    else return ''
 }
 
 function formProfile(firstname, lastname, description) {
-	return `
+    return `
     <div class="container">
     <div class="row">
       <div class="col-sm-10">
@@ -82,10 +78,9 @@ function formProfile(firstname, lastname, description) {
       <div class="col-sm-3">
         <!--left col-->
         <div class="text-center">
-          <!-- <img src="http://ssl.gstatic.com/accounts/ui/avatar_2x.png" style="width: 200px; height: 200px;"
-            class="avatar img-circle img-thumbnail" alt="avatar"> -->
-            <i class="fa fa-user fa-10x avatar" style="height: 170px; margin-top: 20px;" aria-hidden="true"></i>
-          <div class="input-file-container">
+            <img src="/img/testimonials-1.jpg" style="height: 200px;"
+            class="avatar rounded-circle" alt="avatar">
+              <div class="input-file-container">
             <input class="input-file file-upload" id="my-file" type="file">
             <label tabindex="0" for="my-file" class="input-file-trigger">PHOTO</label>
           </div>

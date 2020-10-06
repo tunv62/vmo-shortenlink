@@ -10,8 +10,8 @@ module.exports = (req, res)=>{
         isDeleted: 0,
         deletedAt: 0
     }, (err, link)=>{
-        if ( err ) return res.json({ message: []})
+        if ( err ) return res.json({ message: [], success: false})
         console.log(link)
-        res.json({data: link})
+        res.json({message: link, success: true})
     })
 }

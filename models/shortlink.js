@@ -17,10 +17,7 @@ const linkSchema = mongoose.Schema({
     //     type: Boolean,
     //     default: false
     // },
-    createAt: {
-        type: Date,
-        default: new Date()
-    },
+    createAt: Date,
     clicks: {
         type: Number,
         default: 0

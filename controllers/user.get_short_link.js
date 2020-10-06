@@ -21,8 +21,9 @@ module.exports = (req, res) => {
             newLink.creator = req.user._id
             newLink.longUrl = longLink
             newLink.shortUrl = shortUrl
+            newLink.createAt = Date.now()
             if (password) newLink.password = password
-            if (expire) {
+            if (expire && selected) {
                 if (selected === '0') {
                     let date = new Date()
                     date.setMinutes(date.getMinutes() + parseInt(expire))
