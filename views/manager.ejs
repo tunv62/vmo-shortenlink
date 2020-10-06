@@ -322,11 +322,35 @@
         <!-- end modal-body -->
         <div class="modal-footer">
           <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button id="confirm-update-link" class="btn btn-primary">Change</button>
+          <button id="confirm-update-link" class="btn btn-primary">Update</button>
         </div>
       </div>
     </div>
   </div> <!-- end update link -->
+
+  <!-- delete link -->
+  <div class="modal fade" id="deleteLinkModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">confirm delete link?</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">Select "delete" below if you are ready to delete link. 
+          <hr>
+          <div class="form-group">
+            <strong id="delete-show-error" class="text-danger">demo error</strong>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          <button id="confirm-delete-link" class="btn btn-primary">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Bootstrap core JavaScript-->
   <script src="/vendor/jquery/jquery.min.js"></script>
@@ -341,8 +365,7 @@
   <script src="/js/profile.js"></script>
   
 
-  <!-- Page level plugins -->
-  <!-- <script src="vendor/chart.js/Chart.min.js"></script> -->
+ 
 
   <!-- Page level custom scripts -->
   <!-- <script src="js/demo/chart-area-demo.js"></script>
@@ -353,7 +376,10 @@
   
     <!-- Page level custom scripts -->
     <script src="/js/user_manager_link.js"></script>
-    <!-- <script src="/js/demo/datatables-demo.js"></script> -->
+
+     <!-- Page level plugins -->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+    <script src="/js/statistic.js"></script>
     
 
 </body>

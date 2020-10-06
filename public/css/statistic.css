@@ -1,0 +1,4 @@
+div.scroll-top {
+    max-height: 50px;
+    overflow: auto;
+}

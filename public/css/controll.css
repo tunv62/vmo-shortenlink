@@ -27,3 +27,12 @@
     height: auto;
     
   }
+  /* tr {
+    height: 5px;
+    overflow: auto;
+  } */
+  div.scrollable {
+    max-width: 350px;
+    max-height: 80px;
+    overflow: auto;
+}
