@@ -13,6 +13,8 @@ module.exports = (req, res)=>{
         shortlink.findById(id, (err, link)=>{
             if (err) return res.json({ message: '', success: false })
             if (!link) return res.json({ message: 'link does not exist', success: true })
+            if (link.isBlock) 
+                return res.json({ message: 'link was blocked, not change', success: true })
             if (password) link.password = password
             if (expire) {
                 if (selected === '0') {
@@ -50,6 +52,8 @@ module.exports = (req, res)=>{
             shortlink.findById(id, (err, link)=>{
                 if (err) return reject('')
                 if (!link) return reject('id wrong') 
+                if (link.isBlock) 
+                    return res.json({ message: 'link was blocked, not change', success: true })
                 if (password) link.password = password
                 link.shortUrl = customLink
                 if (expire) {

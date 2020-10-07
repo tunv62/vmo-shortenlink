@@ -13,6 +13,7 @@ module.exports = (req, res)=>{
             if ( link.password ) 
                 return res.render('confirm_password_access_link', { shortUrl: shortUrl})
             link.clicks += 1
+            link.timeClicks.push(new Date().toString())
             link.save(err =>{
                 if (err) return res.render('page_not_found')
                 res.writeHead(301,{ Location: link.longUrl })

@@ -18,6 +18,7 @@ module.exports = (req, res)=>{
             if ( link.password !== password) 
                 return res.json({ message: 'password wrong', success: false })
             link.clicks += 1
+            link.timeClicks.push(new Date().toString())
             link.save(err =>{
                 if (err) return res.json({ message: 'link invalid', success: false })
                 res.json({ message: link.longUrl, success: true })

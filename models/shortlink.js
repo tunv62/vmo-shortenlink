@@ -6,11 +6,7 @@ const linkSchema = mongoose.Schema({
         type: String,
         required: true
     },
-    shortUrl: {
-        type: String,
-        required: true,
-        unique: true
-    },
+    shortUrl: String,
     password: String,
     expire: Date,
     // isExpire: {
@@ -22,6 +18,7 @@ const linkSchema = mongoose.Schema({
         type: Number,
         default: 0
     },
+    timeClicks: [{ type: String}],
     isBlock: {
         type: Boolean,
         default: false

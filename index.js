@@ -39,6 +39,8 @@ const getInfoShortlink = require('./controllers/user.get_info_shortlink')
 const isAuthenGetShortLink = require('./controllers/user.authen_get_short_link')
 const validateUpdateInfoLink = require('./controllers/user.validate_update_info_link')
 const updateInfoLink = require('./controllers/user.update_info_link')
+const deleteInfoLink = require('./controllers/user.delete_info_link')
+const getSatistic = require('./controllers/user.get_statistic')
 
 const app = express()
 
@@ -112,7 +114,7 @@ app.post('/option-advanced', (req, res)=>{
 //     res.render('confirm_password_access_link', { shortUrl: 'wrong'})
 // })
 
-app.post('/password-access-link', accessShortLinkPassword, validateUpdateInfoLink, updateInfoLink)
+app.post('/password-access-link', accessShortLinkPassword)
 
 app.get('/logout', (req, res) => {
     req.logout()
@@ -133,7 +135,16 @@ app.post('/auth/profile', isAuthenResponseXml,(req, res)=>{
 
 app.get('/auth/user/get-info-shortenlink', isAuthenResponseXml, getInfoShortlink)
 
-app.put('/auth/user/update-info-shortenlink', isAuthenResponseXml, )
+app.put('/auth/user/update-info-shortenlink', isAuthenResponseXml, 
+        validateUpdateInfoLink, updateInfoLink)
+
+app.delete('/auth/user/delete-info-shortenlink', isAuthenResponseXml, deleteInfoLink)
+
+app.get('/statistic', (req, res)=>{
+    res.render('statistic')
+})
+
+app.post('/auth/user/statistic', isAuthenResponseXml, getSatistic)
 
 app.get('/page-not-found', (req, res) => { res.render('page_not_found') })
 
