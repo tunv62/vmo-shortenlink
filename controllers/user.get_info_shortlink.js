@@ -12,7 +12,6 @@ module.exports = (req, res)=>{
         timeClicks: 0
     }, (err, link)=>{
         if ( err ) return res.json({ message: [], success: false})
-        console.log(link)
         res.json({message: link, success: true})
     })
 }

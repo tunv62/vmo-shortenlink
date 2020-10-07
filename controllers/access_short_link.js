@@ -13,6 +13,9 @@ module.exports = (req, res)=>{
             if ( link.password ) 
                 return res.render('confirm_password_access_link', { shortUrl: shortUrl})
             link.clicks += 1
+            // let a = new Date()
+            // a.setDate(a.getDate() - 10)
+            // link.timeClicks.unshift(a.toString())
             link.timeClicks.push(new Date().toString())
             link.save(err =>{
                 if (err) return res.render('page_not_found')

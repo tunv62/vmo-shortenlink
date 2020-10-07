@@ -30,9 +30,8 @@ $(document).ready(function () {
 	$(document).on('click', '.btn-update-link', function(){
 		let idUpdateLink = $(this).parent().parent().attr('id')
 		let isBlock = $(this).parent().parent().attr('class')
-		console.log(typeof isBlock)
 		let shortUrl = $(this).parent().parent().find('td:eq(0)').html()
-		let longUrl = $(this).parent().parent().find('td:eq(1)').html()
+		let longUrl = $(this).parent().parent().find('td:eq(1) div.scrollable').html()
 		let status = $(this).parent().parent().find('td:eq(2)').html()
 		let createAt = $(this).parent().parent().find('td:eq(3)').html()
 		let clicks = $(this).parent().parent().find('td:eq(4)').html()
@@ -211,7 +210,7 @@ function formatData(dt) {
 		result += `
 		<tr id="`+ link._id +`" class="`+ link.isBlock +`">
 			<td>`+link.shortUrl+`</td>
-			<td>  <div class=scrollable> `+link.longUrl+` </div> </td>
+			<td>  <div class=scrollable>`+link.longUrl+`</div> </td>
 			<td>`+checkStatus(link.isBlock ,link.expire)+`</td>
 			<td>`+parseDate(link.createAt)+`</td>
 			<td>`+link.clicks+`</td>

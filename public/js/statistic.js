@@ -2,12 +2,10 @@
 
 // Set new default font family and font color to mimic Bootstrap's default styling
 
-
+var dataOfChart = []
 $(document).ready(function(){
     $(document).on('click', '.btn-area-chart', function(){
         let idLink = $(this).parent().parent().attr('id')
-        console.log('check-----' + idLink)
-        
         $.ajax({
             url: '/auth/user/statistic',
             method: 'POST',
@@ -15,30 +13,59 @@ $(document).ready(function(){
             data:{ id: idLink },
             success: function(dt){
                 let { message, success } = dt
-				console.log(success)
 				if (success) {
 					if (message) {
                         $('#body-content').html(formStatistic())
-                        console.log(message)
-                        // var ctx = $("#myAreaChart")
-                        //configLineChart(ctx)
+                        processDataOfChart(message, 7)
+                        dataOfChart = message.slice()
                     }
-					else alert('wrong')
+					else alert('wrong ,you have to refresh page')
 				} else window.location.href = '/login'
             },
             error: function(stt, err){
                 console.log(stt, err)
             }
         })
+    })
 
-        
+    $(document).on('click', '#btn-chart-link-week', function(){
+        if (dataOfChart.length > 0) {
+            $('#myAreaChart').remove() // this is my <canvas> element
+            $('.chart-area').append('<canvas id="myAreaChart"><canvas>')
+            processDataOfChart(dataOfChart, 7)
+        }
+    })
+
+    $(document).on('click', '#btn-chart-line-month', function(){
+        if (dataOfChart.length > 0) {
+            $('#myAreaChart').remove() // this is my <canvas> element
+            $('.chart-area').append('<canvas id="myAreaChart"><canvas>')
+            processDataOfChart(dataOfChart, 30)
+        }
     })
 })
+// week
+async function processDataOfChart(data, number) {
+    try {
+      if (data.length > 0){
+        let days = await getNumberDaysAgo(new Date(), number)
+        let indexOfData = await fiterIndexStartOfData(days, data)
+        if ( indexOfData > data.length - 1) indexOfData = data.length - 1
+        let indexOfDays = await filterIndexStartOfDays(days, data[indexOfData])
+        if ( indexOfDays > days.length - 1) indexOfDays = days.length - 1
+        let result = await countClicksAWeek(days, indexOfDays, indexOfData, data)
+        configLineChart(result, days)
+      }
+    } catch (e) {
+        console.log(e)
+    }
+}
 
-function getSevenDaysAgo(date) {
+function getNumberDaysAgo(date, number) {
     return new Promise(resolve => {
         var days = []
-        for (let i = 0; i < 7; i++) {
+        // console.log(typeof number)
+        for (let i = 0; i < number; i++) {
             days.push(date.toString())
             date.setDate(date.getDate() - 1)
         }
@@ -59,7 +86,7 @@ function fiterIndexStartOfData(days, data) {
             if (startDate > d) start = i + 1
             else break
         }
-        console.log(start)
+        // console.log(start)
         return resolve(start)
     })
 }
@@ -75,14 +102,18 @@ function filterIndexStartOfDays(days, dt) {
             if (startDate > new Date(days[i])) start = i + 1
             else break
         }
-        console.log(start)
+        // console.log(start)
         return resolve(start)
     })
 }
 
 function countClicksAWeek(days, indexDay, indexData, data) {
     return new Promise(resolve => {
-        let count = [0, 0, 0, 0, 0, 0, 0]
+        // if (days.length > 7) 
+        //     let count = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+        // else let count = [0, 0, 0, 0, 0, 0, 0]
+        let count = Array.apply(null, Array(days.length)).map(function(){return 0})
+        
         for (let i = indexData; i < data.length; i++) {
             let temp = data[i].slice(4, 15)
             for (let j = indexDay; j < days.length; j++) {
@@ -92,34 +123,79 @@ function countClicksAWeek(days, indexDay, indexData, data) {
                 }
             }
         }
+        // console.log(count.join('-'))
         return resolve(count)
     })
 }
-
-async function processData(data) {
-    try {
-        let days = await getSevenDaysAgo(new Date())
-        let indexOfData = await fiterIndexStartOfData(days, data)
-        if ( indexOfData > data.length - 1) indexOfData = data.length - 1
-        let indexOfDays = await filterIndexStartOfDays(days, data[indexOfData])
-        if ( indexOfDays > days.length - 1) indexOfDays = days.length - 1
-        let result = await countClicksAWeek(days, indexOfDays, indexOfData, data)
-        configLineChart(result)
-    } catch (e) {
-        console.log(e)
-    }
-}
+// end week
 
 // Area Chart Example
 Chart.defaults.global.defaultFontFamily = 'Nunito', '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 Chart.defaults.global.defaultFontColor = '#858796';
+// var dataOfChart = []
+// var labelOfWeek = []
+// var labelOfMonth = []
 
-function configLineChart(dt){
-var ctx = document.getElementById("myAreaChart");
+function proccessLable(days){ // 0 is week, 1 is month
+    if (days.length < 8) 
+        for (let i = 0; i < days.length; i++)
+            days[i] = days[i].slice(0, 15)
+    else 
+        for (let i = 0; i < days.length; i++)
+            days[i] = days[i].slice(4, 15)
+    return days
+}
+
+function getTopAndTotal(dt, days, number){
+    let top = Array.apply(null, Array(number+2)).map(function(){ return 0})
+    top[top.length-1] = 100000
+    let sum = 0
+    let top1 = Array.apply(null, Array(number+2)).map(function(){ return ''})
+    for (let i = 0; i < dt.length; i++){
+        sum += dt[i]
+        for (let j = 1; j < top.length; j++){
+            if (dt[i] <= top[j]) {
+                if (dt[i] !== 0) {
+                    let getB = top[j-1]
+                    let setA = 0
+                    let getB1 = top1[j-1]
+                    let setA1 = ''
+                    for (let k = j-1; k > 0; k--){
+                        
+                        setA = top[k-1]
+                        top[k-1] = getB
+                        getB = setA
+
+                        setA1 = top1[k-1]
+                        top1[k-1] = getB1
+                        getB1 = setA1
+                        
+                    }
+                    top[j-1] = dt[i]
+                    top1[j-1] = days[i]
+                }
+                break
+            }
+        }
+    }
+    top1.pop()
+    top1.shift()
+    setValueOfTopAndTotal(top1, sum)
+}
+
+function setValueOfTopAndTotal(top, sum){
+    $('.total-access').text(sum)
+    $('.top1').text(top[top.length - 1])
+    $('.top2').text(top[top.length - 2])
+    $('.top3').text(top[top.length - 3])
+}
+
+function configLineChart(dt, days){
+var ctx = document.getElementById("myAreaChart")
 var myLineChart = new Chart(ctx, {
   type: 'line',
   data: {
-    labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+    labels: proccessLable(days),
     datasets: [{
       label: "clicks",
       lineTension: 0.3,
@@ -156,7 +232,7 @@ var myLineChart = new Chart(ctx, {
           drawBorder: false
         },
         ticks: {
-          maxTicksLimit: 7
+          maxTicksLimit: 5
         }
       }],
       yAxes: [{
@@ -165,7 +241,7 @@ var myLineChart = new Chart(ctx, {
           padding: 10,
           // Include a dollar sign in the ticks
           callback: function(value, index, values) {
-            return '$' + number_format(value);
+            return 'clicks:' + number_format(value);
           }
         },
         gridLines: {
@@ -197,12 +273,13 @@ var myLineChart = new Chart(ctx, {
       callbacks: {
         label: function(tooltipItem, chart) {
           var datasetLabel = chart.datasets[tooltipItem.datasetIndex].label || '';
-          return datasetLabel + ': $' + number_format(tooltipItem.yLabel);
+          return datasetLabel + ':' + number_format(tooltipItem.yLabel);
         }
       }
     }
   }
 })
+getTopAndTotal(dt, days, 3)
 }
 
 function number_format(number, decimals, dec_point, thousands_sep) {
@@ -240,10 +317,10 @@ function formStatistic(){
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-primary shadow h-100 py-2">
             <div class="card-body">
-              <div class="row no-gutters align-items-center">
+              <div class="row no-gutters align-items-center card-total">
                 <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Earnings (Monthly)</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total of Access</div>
+                <div class="h5 mb-0 font-weight-bold text-gray-800 total-access">0</div>
                 </div>
                 <div class="col-auto">
                   <i class="fas fa-calendar fa-2x text-gray-300"></i>
@@ -257,13 +334,11 @@ function formStatistic(){
         <div class="col-xl-3 col-md-6 mb-4">
           <div class="card border-left-success shadow h-100 py-2">
             <div class="card-body">
-              <div class="row no-gutters align-items-center">
+              <div class="row no-gutters align-items-center card-top">
                 <div class="col mr-2">
-                  <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Earnings (Annual)</div>
-                  <div class="h5 mb-0 font-weight-bold text-gray-800 scroll-top">
-                    <p>$215,000</p> 
-                    <p>343434</p>
-                  </div>
+                    <div class="text-sm font-weight-bold text-warning text-uppercase mb-1 top1">Top</div>
+                    <div class="text-sm font-weight-bold text-secondary text-uppercase mb-1 top2">Top</div>
+                    <div class="text-sm font-weight-bold text-info text-uppercase mb-1 top3">Top</div>
                 </div>
                 <div class="col-auto">
                   <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
@@ -280,17 +355,15 @@ function formStatistic(){
             <div class="card shadow mb-4">
               <!-- Card Header - Dropdown -->
               <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                <h6 class="m-0 font-weight-bold text-primary">the number of access</h6>
                 <div class="dropdown no-arrow">
                   <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
                   </a>
                   <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in" aria-labelledby="dropdownMenuLink">
-                    <div class="dropdown-header">Dropdown Header:</div>
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
+                  <div class="dropdown-header">Option:</div>
+                  <button id="btn-chart-link-week" class="dropdown-item">a week</button>
+                  <button id="btn-chart-line-month" class="dropdown-item">a Month</button>
                   </div>
                 </div>
               </div>

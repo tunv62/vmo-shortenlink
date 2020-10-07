@@ -41,6 +41,10 @@ const validateUpdateInfoLink = require('./controllers/user.validate_update_info_
 const updateInfoLink = require('./controllers/user.update_info_link')
 const deleteInfoLink = require('./controllers/user.delete_info_link')
 const getSatistic = require('./controllers/user.get_statistic')
+const validateUpdateProfile = require('./controllers/user.validate_update_profile')
+const updateInfoProfile = require('./controllers/user.update_info_profile')
+const validateChangePassword = require('./controllers/user.validate_change_password')
+const userChangePassword = require('./controllers/user.change_password')
 
 const app = express()
 
@@ -129,9 +133,9 @@ app.get('/auth/manager', isAuthenticatedRedirect,(req, res)=>{
 
 app.get('/auth/profile', isAuthenResponseXml, userGetProfile)
 
-app.post('/auth/profile', isAuthenResponseXml,(req, res)=>{
-    res.json({ message: 'status ok' ,success: true})
-})
+app.post('/auth/profile', isAuthenResponseXml, validateUpdateProfile, updateInfoProfile)
+
+app.post('/auth/change-password', isAuthenResponseXml, validateChangePassword, userChangePassword)
 
 app.get('/auth/user/get-info-shortenlink', isAuthenResponseXml, getInfoShortlink)
 
