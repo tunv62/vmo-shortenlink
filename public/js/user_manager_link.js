@@ -20,7 +20,7 @@ $(document).ready(function () {
 			}
 		})
 	})
-
+	$('#btn-dashboard').trigger('click')
 	//update link
 	var trUpdate = {
 		_id: '', shortUrl: '', longUrl: '',

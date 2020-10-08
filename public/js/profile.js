@@ -64,7 +64,6 @@ $(document).ready(function () {
         })
     })
     $(document).on('keyup', '#new-password, #repeat-password', function(){
-        console.log('chechk------')
         if ($('#new-password').val() == $('#repeat-password').val()) 
             $('#message-change').html('Matching').css('color', 'green')
         else $('#message-change').html('Not Matching').css('color', 'red')
@@ -128,10 +127,8 @@ function formProfile(firstname, lastname, description) {
         </hr><br>
         <ul class="list-group">
           <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Link:</strong></span> 100</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Total Clicks:</strong></span> 1000000</li>
         </ul>
       </div>
       <!--/col-3-->
@@ -199,7 +196,7 @@ function formProfile(firstname, lastname, description) {
               <div class="form-group">
                 <div class="col-xs-6">
                   <label for="currentPassword">
-                    <h4>Current password</h4>
+                    <h5>Current password</h5>
                   </label>
                   <input type="password" class="form-control" name="currentPassword" id="current-password" placeholder="current password"
                     title="enter your password.">
@@ -208,7 +205,7 @@ function formProfile(firstname, lastname, description) {
               <div class="form-group">
                 <div class="col-xs-6">
                   <label for="newPassword">
-                    <h4>New password</h4>
+                    <h5>New password</h5>
                   </label>
                   <input type="password" class="form-control" name="newPassword" id="new-password" placeholder="new password"
                     title="enter your password.">
@@ -218,7 +215,7 @@ function formProfile(firstname, lastname, description) {
 
                 <div class="col-xs-6">
                   <label for="repeatPassword">
-                    <h4>Repeat password</h4>
+                    <h5>Repeat password</h5>
                   </label>
                   <input type="password" class="form-control" name="repeatPassword" id="repeat-password" placeholder="repeat password"
                     title="enter your password.">

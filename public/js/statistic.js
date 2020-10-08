@@ -336,9 +336,10 @@ function formStatistic(){
             <div class="card-body">
               <div class="row no-gutters align-items-center card-top">
                 <div class="col mr-2">
-                    <div class="text-sm font-weight-bold text-warning text-uppercase mb-1 top1">Top</div>
-                    <div class="text-sm font-weight-bold text-secondary text-uppercase mb-1 top2">Top</div>
-                    <div class="text-sm font-weight-bold text-info text-uppercase mb-1 top3">Top</div>
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Top</div>
+                    <div class="text-sm font-weight-bold text-warning mb-1 top1">Top</div>
+                    <div class="text-sm font-weight-bold text-secondary mb-1 top2">Top</div>
+                    <div class="text-sm font-weight-bold text-info mb-1 top3">Top</div>
                 </div>
                 <div class="col-auto">
                   <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>

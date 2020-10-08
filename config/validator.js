@@ -2,8 +2,8 @@ const { body } = require('express-validator')
 
 const validateRegisterAccount = ()=>{
     return [
-        body('firstname', 'from 3-20 char (just use char, number, .)').matches(/^[a-zA-Z0-9\s\.]{3,20}$/, "i"),
-        body('lastname', 'from 3-20 char (just use char, number, .)').matches(/^[a-zA-Z0-9\s\.]{3,20}$/, "i"),
+        body('firstname', 'firstname from 3-20 char (just use char, number, .)').matches(/^[a-zA-Z0-9\s\.]{3,20}$/, "i"),
+        body('lastname', 'lastname from 3-20 char (just use char, number, .)').matches(/^[a-zA-Z0-9\s\.]{3,20}$/, "i"),
         body('email', 'email invalid').isEmail(),
         body('password', 'password 3-10 char').isLength({ min: 3, max: 10}),
         body('password', 'password least 1 character and 1 number').matches(/^(?:[0-9]+[a-z]|[a-z]+[0-9])[a-z0-9]*$/, "i")

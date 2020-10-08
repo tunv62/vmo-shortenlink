@@ -2,6 +2,7 @@
 $(document).ready(function () {
 	var status = false
 	$('#shorten-link').fadeToggle()
+	$('#btn-copy').tooltip()
 	$('#option-div').fadeToggle()
 	$(document).on('click', '#get-short-link-guest', function () {
 		disableBtn('#get-short-link-guest')
@@ -63,7 +64,8 @@ $(document).ready(function () {
 		})
 	})
 	$(document).on('click', '#btn-copy', function () {
-		console.log('----------')
+		// console.log('check----')
+		$('#btn-copy').tooltip('hide').attr('data-original-title', 'copied').tooltip('show')
 		var temp = $("<input>")
 		$("body").append(temp)
 		temp.val($('#content-copy').text()).select()
@@ -117,7 +119,8 @@ function showError(message) {
 
 function shortenLink(shorten) {
 	// return '<span class="mx-auto mb-2"><i id="btn-copy" style="cursor: pointer;" class="far fa-copy"></i> <span id="content-copy">http://localhost:4000/'+shorten+'</span>  </span>'
-	return '<p class="mx-auto mb-2"><i id="btn-copy" style="cursor:pointer;" class="far fa-copy fa-lg"></i> <span id="content-copy" class="bg-light text-dark">http://localhost:4000/' + shorten + '</span> </p>'
+	return `<p class="mx-auto mb-2"><i id="btn-copy" style="cursor:pointer;" class="far fa-copy fa-lg" data-toggle="tooltip" data-placement="top" title="click to copy"></i> 
+	<span id="content-copy" class="bg-light text-dark">http://localhost:4000/` + shorten + `</span> </p>`
 }
 
 function optionAdvanced() {
