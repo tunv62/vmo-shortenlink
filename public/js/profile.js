@@ -23,9 +23,9 @@ $(document).ready(function () {
             success: function (dt) {
                 let { message, success } = dt
                 if (success) {
-                    $('#body-content').html(formProfile(message.firstname
-                        , message.lastname, checkUnderfined(message.description)))
-                    console.log('what'+ message.description)
+                    $('#body-content').html(formProfile(message[0].firstname
+                        , message[0].lastname, checkUnderfined(message[0].description)))
+                    formActivity(message[1])
                 } else window.location.href = '/login'
             },
             error: function (stt, err) {
@@ -55,6 +55,7 @@ $(document).ready(function () {
                     } else {
                         $('#status-update').text('update successfully')
                         $('#status-update').attr('class', 'text-info')
+                        $('#name-user').text(firstname+ ' ' + lastname)
                     }
                 } else window.location.href = '/login'
             },
@@ -105,6 +106,20 @@ function checkUnderfined(check) {
     else return ''
 }
 
+function formActivity(data){
+    if (data.length <= 0) {
+        $('#amount-link').text('0')
+        $('#total-access-link').text('0')
+    }
+    else {
+        let total = 0
+        for (let i of data)
+            total += i.clicks
+        $('#amount-link').text(data.length)
+        $('#total-access-link').text(total)
+    }
+}
+
 function formProfile(firstname, lastname, description) {
     return `
     <div class="container">
@@ -127,8 +142,8 @@ function formProfile(firstname, lastname, description) {
         </hr><br>
         <ul class="list-group">
           <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Link:</strong></span> 100</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Total Clicks:</strong></span> 1000000</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Link:</strong> </span><span id="amount-link"> 100</span></li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Total Clicks:</strong> </span><span id="total-access-link"> 100</span></li>
         </ul>
       </div>
       <!--/col-3-->

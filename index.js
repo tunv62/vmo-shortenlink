@@ -45,6 +45,7 @@ const validateUpdateProfile = require('./controllers/user.validate_update_profil
 const updateInfoProfile = require('./controllers/user.update_info_profile')
 const validateChangePassword = require('./controllers/user.validate_change_password')
 const userChangePassword = require('./controllers/user.change_password')
+const managerPageGetInfoUser = require('./controllers/user.manager_get_info_user')
 
 const app = express()
 
@@ -126,10 +127,7 @@ app.get('/logout', (req, res) => {
     res.end()
 })
 
-app.get('/auth/manager', isAuthenticatedRedirect,(req, res)=>{
-    res.render('manager')
-    // res.render('profile')
-})
+app.get('/auth/manager', isAuthenticatedRedirect, managerPageGetInfoUser)
 
 app.get('/auth/profile', isAuthenResponseXml, userGetProfile)
 

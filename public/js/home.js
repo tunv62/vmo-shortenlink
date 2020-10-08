@@ -2,7 +2,7 @@
 $(document).ready(function () {
 	var status = false
 	$('#shorten-link').fadeToggle()
-	$('#btn-copy').tooltip()
+	// $('#btn-copy').tooltip()
 	$('#option-div').fadeToggle()
 	$(document).on('click', '#get-short-link-guest', function () {
 		disableBtn('#get-short-link-guest')
@@ -16,8 +16,10 @@ $(document).ready(function () {
 			success: function (dt) {
 				enableBtn('#get-short-link-guest', 'shorter')
 				let { message, success } = dt
-				if (success) $('#shorten-link').html(shortenLink(message))
-				else $('#shorten-link').html(showError(message))
+				if (success) {
+					$('#shorten-link').html(shortenLink(message))
+					$('#btn-copy').tooltip()
+				} else $('#shorten-link').html(showError(message))
 				$('#shorten-link').fadeIn()
 			},
 			error: function (stt, err) {
@@ -48,8 +50,10 @@ $(document).ready(function () {
 			},
 			success: function (dt) {
 				let { message, success } = dt
-				if (success == '1') 
+				if (success == '1') {
 					$('#shorten-link').html(shortenLink(message))
+					$('#btn-copy').tooltip()
+				}
 				else if (success == '0')
 					$('#shorten-link').html(showError(message))
 				else window.location.href = '/login'
