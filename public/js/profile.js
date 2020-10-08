@@ -25,6 +25,7 @@ $(document).ready(function () {
                 if (success) {
                     $('#body-content').html(formProfile(message.firstname
                         , message.lastname, checkUnderfined(message.description)))
+                    console.log('what'+ message.description)
                 } else window.location.href = '/login'
             },
             error: function (stt, err) {
@@ -35,7 +36,7 @@ $(document).ready(function () {
     $(document).on('click', '#confirm-update-profile', function () {
         let firstname = $('#first_name').val()
         let lastname = $('#last_name').val()
-        let description = $('#description').text()
+        let description = $('#description').val()
         $.ajax({
             url: '/auth/profile',
             method: 'POST',
@@ -48,10 +49,13 @@ $(document).ready(function () {
             success: function (dt) {
                 let { message, success } = dt
                 if (success) {
-                    $('#status-update').text(message)
-                    $('#status-update').attr('class', 'text-info')
-                    // $('#status-update').text(message)
-                    // $('#status-update').attr('class', 'text-danger')
+                    if (message){
+                        $('#status-update').text(message)
+                        $('#status-update').attr('class', 'text-danger')
+                    } else {
+                        $('#status-update').text('update successfully')
+                        $('#status-update').attr('class', 'text-info')
+                    }
                 } else window.location.href = '/login'
             },
             error: function (stt, err) {
@@ -59,6 +63,42 @@ $(document).ready(function () {
             }
         })
     })
+    $(document).on('keyup', '#new-password, #repeat-password', function(){
+        console.log('chechk------')
+        if ($('#new-password').val() == $('#repeat-password').val()) 
+            $('#message-change').html('Matching').css('color', 'green')
+        else $('#message-change').html('Not Matching').css('color', 'red')
+    })
+    $(document).on('click', '#confirm-change-password', function(){
+        let currentPass = $('#current-password').val()
+        let newPass = $('#new-password').val()
+        $.ajax({
+            url: '/auth/change-password',
+            method: 'POST',
+            dataType: 'json',
+            data: {
+                currentPass: currentPass,
+                newPass: newPass
+            },
+            success: function(dt){
+                let { message, success } = dt
+                if (success) {
+                    if (message){
+                        $('#message-change').text(message)
+                        $('#message-change').css('color', 'red')
+                    } else {
+                        $('#message-change').text('update successfully')
+                        $('#message-change').css('color', 'green')
+                    }
+                } else window.location.href = '/login'
+            },
+            error: function(stt, err){
+                console.log(stt, err)
+            }
+        })
+    })
+        
+    
 })
 
 function checkUnderfined(check) {
@@ -183,6 +223,9 @@ function formProfile(firstname, lastname, description) {
                   <input type="password" class="form-control" name="repeatPassword" id="repeat-password" placeholder="repeat password"
                     title="enter your password.">
                 </div>
+              </div>
+              <div class="form-group">
+                <strong id="message-change"></strong>
               </div>
               <div class="form-group">
                 <div class="col-xs-12">

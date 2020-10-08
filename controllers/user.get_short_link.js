@@ -4,19 +4,19 @@ const cryptoRandomString = require('crypto-random-string')
 module.exports = (req, res) => {
     let { longLink, password, customLink, expire, selected } = req.body
     if (customLink){
-        console.log('-run')
+        // console.log('-run')
         createShortLink(customLink)
     }
     else {
         let char = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
         let shortUrl = cryptoRandomString({ length: 7, characters: char })
-        if (!shortUrl) res.json({ message: 'link invalid', success: false })
+        if (!shortUrl) res.json({ message: 'link invalid or try again', success: '0' })
         else createShortLink(shortUrl)
     }
     function createShortLink(shortUrl) {
         shortlink.findOne({ shortUrl: shortUrl }, (err, link) => {
-            if (err) return res.json({ message: 'link illegal or try again', success: false })
-            if (link) return res.json({ message: 'link address existed, try again', success: false })
+            if (err) return res.json({ message: 'link illegal or try again', success: '0' })
+            if (link) return res.json({ message: 'link address existed, try again', success: '0' })
             let newLink = new shortlink()
             newLink.creator = req.user._id
             newLink.longUrl = longLink
@@ -39,8 +39,8 @@ module.exports = (req, res) => {
                 }
             }
             newLink.save(err => {
-                if (err) return res.json({ message: 'link illegal or try again', success: false })
-                res.json({ message: shortUrl, success: true })
+                if (err) return res.json({ message: 'link illegal or try again', success: '0' })
+                res.json({ message: shortUrl, success: '1' })
             })
         })
     }
