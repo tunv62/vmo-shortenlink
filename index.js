@@ -52,7 +52,7 @@ const app = express()
 mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true })
 
 app.use(express.static('public'))
-app.use(favicon(__dirname + '/public/img/bg-showcase-2.jpg'))
+app.use(favicon(__dirname + '/public/img/logo.jpg'))
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))

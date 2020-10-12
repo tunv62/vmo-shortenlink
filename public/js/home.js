@@ -114,7 +114,7 @@ function enableBtn(id, content) {
 
 function showError(message) {
 	return '<div class="alert alert-danger mx-auto">'
-		+ '<strong>Opps, </strong><span>' + message + '</span> <br>'
+		+ '<strong>Oops, </strong><span>' + message + '</span> <br>'
 		+ '</div>'
 }
 
