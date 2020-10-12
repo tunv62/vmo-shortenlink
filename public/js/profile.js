@@ -132,7 +132,7 @@ function formProfile(firstname, lastname, description) {
       <div class="col-sm-3">
         <!--left col-->
         <div class="text-center">
-            <img src="/img/testimonials-1.jpg" style="height: 200px;"
+            <img src="/img/logo.jpg" style="height: 200px;"
             class="avatar rounded-circle" alt="avatar">
               <div class="input-file-container">
             <input class="input-file file-upload" id="my-file" type="file">

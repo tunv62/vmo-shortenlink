@@ -11,7 +11,7 @@ module.exports = (req, res)=>{
             if ( link.expire ) 
                 if ( link.expire < Date.now() ) return res.render('page_not_found')
             if ( link.password ) 
-                return res.render('confirm_password_access_link', { shortUrl: shortUrl})
+                return res.render('confirm_password_access_link', { shortUrl: process.env.nameDomain + shortUrl})
             link.clicks += 1
             // let a = new Date()
             // a.setDate(a.getDate() - 10)

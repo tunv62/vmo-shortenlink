@@ -11,20 +11,19 @@ function enableBtn(id, content){
 $(document).ready(function(){
     $('.alert-danger').hide()
     $(document).on('click', '#btn-confirm', function(){
-        console.log('run-----')
         disableBtn('#btn-confirm')
-        let shortUrl = $('#shortUrl').text()
+        let shortUrl1 = $('#shortUrl').text()
         let password = $('#password').val()
+        let shortUrl = shortUrl1.split('/')
         $.ajax({
             url: '/password-access-link',
             method: 'POST',
             dataType: 'json',
             data: {
-                shortUrl: shortUrl,
+                shortUrl: shortUrl[shortUrl.length -1],
                 password: password
             },
             success: function(dt){
-                console.log('result -----')
                 let { message, success} = dt
                 setTimeout(() => {
                     enableBtn('#btn-confirm', 'Confirm')

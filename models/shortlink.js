@@ -3,16 +3,11 @@ const mongoose = require('mongoose')
 const linkSchema = mongoose.Schema({
     creator: String,
     longUrl: {
-        type: String,
-        required: true
+        type: String
     },
     shortUrl: String,
     password: String,
     expire: Date,
-    // isExpire: {
-    //     type: Boolean,
-    //     default: false
-    // },
     createAt: Date,
     clicks: {
         type: Number,
