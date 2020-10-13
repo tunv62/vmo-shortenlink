@@ -52,8 +52,8 @@ module.exports = (req, res) => {
             content += `
                 <div style="padding: 10px; background-color: #003375">
                     <div style="padding: 10px; background-color: white;">
-                        <h4 style="color: #0085ff">verification code to reset password</h4>
-                        <span style="color: black">http://localhost:4000/reset/`+ result[0] + `</span> <hr>
+                        <h4 style="color: #0085ff">verification link to reset password</h4>
+                        <span style="color: black">`+ process.env.nameDomain +`reset/`+ result[0] + `</span> <hr>
                         <span style="color: black">expire: 5 minutes</span>
                     </div>
                 </div>`
