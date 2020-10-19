@@ -1,18 +1,29 @@
 const account = require('../models/account')
 const nodemailer = require('nodemailer')
+const bcrypt = require('bcrypt')
 
 module.exports = (req, res) => {
-    checkToken()
+    hashPass()
+        .then(hash => {return checkToken(hash)})
         .then(email => { return sendMailer(email) })
         .catch(err => { res.json({ messages: err, success: false }) })
-    function checkToken() {
+    function hashPass(){
+        return new Promise((resolve, reject)=>{
+            bcrypt.hash(req.body.password, 10, (err, hash)=>{
+                if (err) return reject(false)
+                else resolve(hash)
+            })
+        })
+    }
+    function checkToken(hash) {
         return new Promise((resolve, reject) => {
             account.findOne({ 'local.token': req.body.token }, (err, acc) => {
                 if (err) return reject(false)
                 if (!acc) return reject(false)
                 if (acc.local.expire < Date.now() || acc.local.is_block === true ||
                     acc.local.is_active === false) return reject(false)
-                acc.local.password = req.body.password
+                acc.local.password = hash
+                console.log(acc.local.password)
                 acc.local.token = undefined
                 acc.local.expire = undefined
                 acc.save(err => {

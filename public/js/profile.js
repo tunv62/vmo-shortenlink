@@ -23,9 +23,9 @@ $(document).ready(function () {
             success: function (dt) {
                 let { message, success } = dt
                 if (success) {
-                    $('#body-content').html(formProfile(message.firstname
-                        , message.lastname, checkUnderfined(message.description)))
-                    console.log('what'+ message.description)
+                    $('#body-content').html(formProfile(message[0].firstname
+                        , message[0].lastname, checkUnderfined(message[0].description)))
+                    formActivity(message[1])
                 } else window.location.href = '/login'
             },
             error: function (stt, err) {
@@ -55,6 +55,7 @@ $(document).ready(function () {
                     } else {
                         $('#status-update').text('update successfully')
                         $('#status-update').attr('class', 'text-info')
+                        $('#name-user').text(firstname+ ' ' + lastname)
                     }
                 } else window.location.href = '/login'
             },
@@ -64,7 +65,6 @@ $(document).ready(function () {
         })
     })
     $(document).on('keyup', '#new-password, #repeat-password', function(){
-        console.log('chechk------')
         if ($('#new-password').val() == $('#repeat-password').val()) 
             $('#message-change').html('Matching').css('color', 'green')
         else $('#message-change').html('Not Matching').css('color', 'red')
@@ -106,6 +106,20 @@ function checkUnderfined(check) {
     else return ''
 }
 
+function formActivity(data){
+    if (data.length <= 0) {
+        $('#amount-link').text('0')
+        $('#total-access-link').text('0')
+    }
+    else {
+        let total = 0
+        for (let i of data)
+            total += i.clicks
+        $('#amount-link').text(data.length)
+        $('#total-access-link').text(total)
+    }
+}
+
 function formProfile(firstname, lastname, description) {
     return `
     <div class="container">
@@ -118,7 +132,7 @@ function formProfile(firstname, lastname, description) {
       <div class="col-sm-3">
         <!--left col-->
         <div class="text-center">
-            <img src="/img/testimonials-1.jpg" style="height: 200px;"
+            <img src="/img/logo.jpg" style="height: 200px;"
             class="avatar rounded-circle" alt="avatar">
               <div class="input-file-container">
             <input class="input-file file-upload" id="my-file" type="file">
@@ -128,10 +142,8 @@ function formProfile(firstname, lastname, description) {
         </hr><br>
         <ul class="list-group">
           <li class="list-group-item text-muted">Activity <i class="fa fa-dashboard fa-1x"></i></li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Shares</strong></span> 125</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Likes</strong></span> 13</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Posts</strong></span> 37</li>
-          <li class="list-group-item text-right"><span class="pull-left"><strong>Followers</strong></span> 78</li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Link:</strong> </span><span id="amount-link"> 100</span></li>
+          <li class="list-group-item text-right"><span class="pull-left"><strong>Total Clicks:</strong> </span><span id="total-access-link"> 100</span></li>
         </ul>
       </div>
       <!--/col-3-->
@@ -199,7 +211,7 @@ function formProfile(firstname, lastname, description) {
               <div class="form-group">
                 <div class="col-xs-6">
                   <label for="currentPassword">
-                    <h4>Current password</h4>
+                    <h5>Current password</h5>
                   </label>
                   <input type="password" class="form-control" name="currentPassword" id="current-password" placeholder="current password"
                     title="enter your password.">
@@ -208,7 +220,7 @@ function formProfile(firstname, lastname, description) {
               <div class="form-group">
                 <div class="col-xs-6">
                   <label for="newPassword">
-                    <h4>New password</h4>
+                    <h5>New password</h5>
                   </label>
                   <input type="password" class="form-control" name="newPassword" id="new-password" placeholder="new password"
                     title="enter your password.">
@@ -218,7 +230,7 @@ function formProfile(firstname, lastname, description) {
 
                 <div class="col-xs-6">
                   <label for="repeatPassword">
-                    <h4>Repeat password</h4>
+                    <h5>Repeat password</h5>
                   </label>
                   <input type="password" class="form-control" name="repeatPassword" id="repeat-password" placeholder="repeat password"
                     title="enter your password.">

@@ -2,6 +2,7 @@
 $(document).ready(function () {
 	var status = false
 	$('#shorten-link').fadeToggle()
+	// $('#btn-copy').tooltip()
 	$('#option-div').fadeToggle()
 	$(document).on('click', '#get-short-link-guest', function () {
 		disableBtn('#get-short-link-guest')
@@ -15,8 +16,10 @@ $(document).ready(function () {
 			success: function (dt) {
 				enableBtn('#get-short-link-guest', 'shorter')
 				let { message, success } = dt
-				if (success) $('#shorten-link').html(shortenLink(message))
-				else $('#shorten-link').html(showError(message))
+				if (success) {
+					$('#shorten-link').html(shortenLink(message))
+					$('#btn-copy').tooltip()
+				} else $('#shorten-link').html(showError(message))
 				$('#shorten-link').fadeIn()
 			},
 			error: function (stt, err) {
@@ -25,7 +28,6 @@ $(document).ready(function () {
 		})
 	})
 	$(document).on('click', '#get-short-link-user', function () {
-		console.log('----------')
 		disableBtn('#get-short-link-user')
 		$('#shorten-link').fadeOut()
 		let longLink = $('#long-link').val()
@@ -33,7 +35,6 @@ $(document).ready(function () {
 		let customLink = $('#custom-link').val()
 		let expire = $('#expire').val()
 		let selected = $('#select-option').find(":selected").val()
-		console.log(typeof expire)
 		$.ajax({
 			url: '/short-link-user',
 			method: 'POST',
@@ -47,8 +48,10 @@ $(document).ready(function () {
 			},
 			success: function (dt) {
 				let { message, success } = dt
-				if (success == '1') 
+				if (success == '1') {
 					$('#shorten-link').html(shortenLink(message))
+					$('#btn-copy').tooltip()
+				}
 				else if (success == '0')
 					$('#shorten-link').html(showError(message))
 				else window.location.href = '/login'
@@ -63,7 +66,8 @@ $(document).ready(function () {
 		})
 	})
 	$(document).on('click', '#btn-copy', function () {
-		console.log('----------')
+		// console.log('check----')
+		$('#btn-copy').tooltip('hide').attr('data-original-title', 'copied').tooltip('show')
 		var temp = $("<input>")
 		$("body").append(temp)
 		temp.val($('#content-copy').text()).select()
@@ -78,7 +82,6 @@ $(document).ready(function () {
 				dataType: 'json',
 				success: function (dt) {
 					let { logged } = dt
-					console.log(logged)
 					if (logged) {
 						status = logged
 						$('#option-div').append(optionAdvanced())
@@ -111,37 +114,40 @@ function enableBtn(id, content) {
 
 function showError(message) {
 	return '<div class="alert alert-danger mx-auto">'
-		+ '<strong>Opps, </strong><span>' + message + '</span> <br>'
+		+ '<strong>Oops, </strong><span>' + message + '</span> <br>'
 		+ '</div>'
 }
 
 function shortenLink(shorten) {
 	// return '<span class="mx-auto mb-2"><i id="btn-copy" style="cursor: pointer;" class="far fa-copy"></i> <span id="content-copy">http://localhost:4000/'+shorten+'</span>  </span>'
-	return '<p class="mx-auto mb-2"><i id="btn-copy" style="cursor:pointer;" class="far fa-copy fa-lg"></i> <span id="content-copy" class="bg-light text-dark">http://localhost:4000/' + shorten + '</span> </p>'
+	return `<p class="mx-auto mb-2"><i id="btn-copy" style="cursor:pointer;" class="far fa-copy fa-lg" data-toggle="tooltip" data-placement="top" title="click to copy"></i> 
+	<span id="content-copy" class="bg-light text-dark">`+ shorten +`</span> </p>`
 }
 
 function optionAdvanced() {
-	return `<div class="col-xs-6 col-sm-6 col-md-6">
+	return `<div class="form-group row">
+	<div class="col-xs-6 col-sm-6 col-md-6">
     <div class="form-group">
-      <input type="text" name="password" id="password" class="form-control input-sm" placeholder="password">
+      <input type="text" name="password" id="password" class="form-control input-sm rounded-pill" placeholder="password">
     </div>
   </div>
   <div class="col-xs-6 col-sm-6 col-md-6">
     <div class="form-group">
-      <input type="text" name="custom-link" id="custom-link" class="form-control input-sm"
+      <input type="text" name="custom-link" id="custom-link" class="form-control input-sm rounded-pill"
         placeholder="custom address">
     </div>
+  </div>
   </div>
   <div class="col-xs-5 col-sm-5 col-md-5">
     <div class="row">
       <div class="col-xs-6 col-sm-6 col-md-6">
         <div class="form-group">
-          <input type="text" name="expire" id="expire" class="form-control input-sm" placeholder="times">
+          <input type="text" name="expire" id="expire" class="form-control input-sm rounded-pill" placeholder="times">
         </div>
       </div>
       <div class="col-xs-6 col-sm-6 col-md-6">
         <div class="form-group">
-          <select class="form-control" id="select-option">
+          <select class="form-control rounded-pill" id="select-option">
             <option value="0">minutes</option>
             <option value="1">hours</option>
             <option value="2">day</option>

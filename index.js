@@ -45,27 +45,28 @@ const validateUpdateProfile = require('./controllers/user.validate_update_profil
 const updateInfoProfile = require('./controllers/user.update_info_profile')
 const validateChangePassword = require('./controllers/user.validate_change_password')
 const userChangePassword = require('./controllers/user.change_password')
+const managerPageGetInfoUser = require('./controllers/user.manager_get_info_user')
 
 const app = express()
 
-mongoose.connect('mongodb://localhost/vmo_shortenlink', { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URL, { useNewUrlParser: true })
 
 app.use(express.static('public'))
-app.use(favicon(__dirname + '/public/img/bg-showcase-2.jpg'))
+app.use(favicon(__dirname + '/public/img/logo.jpg'))
 app.set('view engine', 'ejs')
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
-    secret: 'key',
+    secret: process.env.SESSION_SECRET,
     cookie: {
-        maxAge: 5 * 60 * 1000
+        maxAge: 10 * 24 * 60 * 60 * 1000
     }
 }))
 app.use(flash())
 app.use(passport.initialize())
 app.use(passport.session())
 
-app.listen(4000, () => { console.log('server listening on port 4000') })
+app.listen(process.env.PORT || 4000, () => { console.log('server listening on port 4000') })
 
 app.get('/', (req, res) => {
     if (req.user) res.render('home',{logged: true})
@@ -92,8 +93,6 @@ app.get('/auth/google',
         passport.authenticate('google.login', { scope: ['profile', 'email'] }))
 
 app.get('/auth/google/callback', googleCallbackPassportRedirectOption)
-
-app.get('/logged', (req, res) => { res.send(req.user) })
 
 app.get('/login/forgot-password', (req, res) => { res.render('forgot_password') })
 
@@ -126,10 +125,7 @@ app.get('/logout', (req, res) => {
     res.end()
 })
 
-app.get('/auth/manager', isAuthenticatedRedirect,(req, res)=>{
-    res.render('manager')
-    // res.render('profile')
-})
+app.get('/auth/manager', isAuthenticatedRedirect, managerPageGetInfoUser)
 
 app.get('/auth/profile', isAuthenResponseXml, userGetProfile)
 

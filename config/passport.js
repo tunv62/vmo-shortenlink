@@ -2,6 +2,7 @@ const passport = require('passport')
 const googleStrategy = require('passport-google-oauth2').Strategy
 const localStrategy = require('passport-local')
 const account = require('../models/account')
+const bcrypt = require('bcrypt')
 
 passport.serializeUser((acc, done) => {
     console.log('------serialize----')
@@ -25,7 +26,8 @@ passport.use('google.login',
             account.findOne({ 'google.api_id': profile.id })
                 .then(acc => {
                     if (acc) {
-                        if ( acc.local.is_block === true ) return done(null, false, { message: 'your account was blocked'})
+                        if ( acc.local.is_block === true ) 
+                            return done(null, false, { message: 'your account was blocked'})
                         else return done(null, acc)
                     }
                     else {
@@ -53,12 +55,14 @@ passport.use('local.login',
         passReqToCallBack: false
     }, (email, password, done)=>{
         account.findOne({ 'local.email': email})
-            .then(acc => {
+            .then(async acc => {
                 if ( !acc ) return done(null, false, { message: 'account not found'})
-                else if ( acc.local.is_active === false) return done(null, false, {message: 'account is not active, create new account.'})
-                else if ( acc.local.is_block === true ) return done(null, false, { message: 'your account was blocked'})
-                else if ( acc.local.password === password) return done(null, acc)
-                else return done(null, false, { message: 'your email or password wrong'})
+                else if ( acc.local.is_active === false) 
+                    return done(null, false, {message: 'account is not active, create new account.'})
+                else if ( acc.local.is_block === true ) 
+                    return done(null, false, { message: 'your account was blocked'})
+                else if (await bcrypt.compare(password, acc.local.password)) return done(null, acc)
+                else return done(null, false, { message: 'your email or password incorrect'})
             })
             .catch(err => done(err))
     })

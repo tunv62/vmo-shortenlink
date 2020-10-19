@@ -18,7 +18,7 @@ module.exports = (req, res) => {
                 newLink.shortUrl = shortUrl
                 newLink.save((err) => {
                     if (err) res.json({ message: 'link invalid or try again', success: false })
-                    res.json({ message: shortUrl, success: true })
+                    res.json({ message: process.env.nameDomain + shortUrl, success: true })
                 })
             })
         }

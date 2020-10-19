@@ -3,8 +3,7 @@ const mongoose = require('mongoose')
 const accountSchema = mongoose.Schema({
     local: {
         email: {
-            type: String,
-            unique: true
+            type: String
         },
         password: {
             type: String
