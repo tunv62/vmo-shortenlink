@@ -1,5 +1,6 @@
 const account = require('../models/account')
-const nodemailer = require('nodemailer')
+// const nodemailer = require('nodemailer')
+const { sendMailQueue } = require('../config/mailer_job_queue')
 const crypto = require('crypto')
 
 module.exports = (req, res) => {
@@ -38,37 +39,16 @@ module.exports = (req, res) => {
     }
     function sendMailer(result) {
         return new Promise((resolve, reject) => {
-            var transporter = nodemailer.createTransport({ // config mail server
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: process.env.EMAIL_SEND,
-                    pass: process.env.EMAIL_PASSWORD_SEND
-                },
-                tls: { rejectUnauthorized: false }
-            });
-            var content = '';
-            content += `
-                <div style="padding: 10px; background-color: #003375">
-                    <div style="padding: 10px; background-color: white;">
-                        <h4 style="color: #0085ff">verification link to reset password</h4>
-                        <span style="color: black">`+ process.env.nameDomain +`reset/`+ result[0] + `</span> <hr>
-                        <span style="color: black">expire: 5 minutes</span>
-                    </div>
-                </div>`
-            var mainOptions = { // thiết lập đối tượng, nội dung gửi mail
-                from: 'shortenLink',
-                to: result[1],
-                subject: 'shortenLink: reset password',
-                html: content //Nội dung html 
+            req.flash('success', 'an email has been sent to your email')
+            res.json({ messages: 'done', success: true })
+            let data = {
+                token: result[0],
+                email: result[1],
+                opt: '0'
             }
-            transporter.sendMail(mainOptions, (err) => {
-                if (err) return reject(false)
-                req.flash('success', 'an email has been sent to your email')
-                res.json({ messages: 'done', success: true })
-                return resolve('done')
-            })
+            let options = { priority: 1 }
+            sendMailQueue.add(data, options)
+            return resolve('done')
         })
     }
 }

@@ -35,37 +35,9 @@ module.exports = (req, res) => {
     }
     function sendMailer(email) {
         return new Promise((resolve, reject) => {
-            var transporter = nodemailer.createTransport({ // config mail server
-                host: 'smtp.gmail.com',
-                port: 465,
-                secure: true,
-                auth: {
-                    user: process.env.EMAIL_SEND,
-                    pass: process.env.EMAIL_PASSWORD_SEND
-                },
-                tls: { rejectUnauthorized: false }
-            });
-            var content = ''
-            content += `
-                <div style="padding: 10px; background-color: #003375">
-                    <div style="padding: 10px; background-color: white;">
-                        <h4 style="color: #0085ff">successfully</h4>
-                        <span style="color: black">the password for your account `+ email + ` has just been changed.</span> <hr>
-                        <span style="color: black">expire: 5 minutes</span>
-                    </div>
-                </div>`
-            var mainOptions = { // thiết lập đối tượng, nội dung gửi mail
-                from: 'shortenLink',
-                to: email,
-                subject: 'shortenLink: reset password success',
-                html: content //Nội dung html 
-            }
-            transporter.sendMail(mainOptions, (err) => {
-                if (err) return reject(false)
-                req.flash('success', 'Your password has been changed.')
-                res.json({ messages: 'done', success: true })
-                return resolve('done')
-            })
+            req.flash('success', 'Your password has been changed.')
+            res.json({ messages: 'done', success: true })
+            return resolve('done')
         })
     }
 }
