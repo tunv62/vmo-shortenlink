@@ -1,5 +1,4 @@
 const account = require('../models/account')
-// const nodemailer = require('nodemailer')
 const { sendMailQueue } = require('../config/mailer_job_queue')
 const crypto = require('crypto')
 
@@ -38,7 +37,7 @@ module.exports = (req, res) => {
         })
     }
     function sendMailer(result) {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             req.flash('success', 'an email has been sent to your email')
             res.json({ messages: 'done', success: true })
             let data = {
@@ -47,6 +46,7 @@ module.exports = (req, res) => {
                 opt: '0'
             }
             let options = { priority: 1 }
+            console.log('check'+ result[0])
             sendMailQueue.add(data, options)
             return resolve('done')
         })

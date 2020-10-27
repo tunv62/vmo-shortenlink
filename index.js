@@ -58,6 +58,8 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({
     secret: process.env.SESSION_SECRET,
+    resave: true,
+    saveUninitialized: true,
     cookie: {
         maxAge: 10 * 24 * 60 * 60 * 1000
     }
@@ -112,10 +114,6 @@ app.post('/option-advanced', (req, res)=>{
     if (req.user) res.json({ logged: true })
     else res.json({ logged: false })
 })
-
-// app.get('/password-access-link', (req, res)=>{
-//     res.render('confirm_password_access_link', { shortUrl: 'wrong'})
-// })
 
 app.post('/password-access-link', accessShortLinkPassword)
 

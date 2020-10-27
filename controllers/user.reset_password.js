@@ -1,6 +1,6 @@
 const account = require('../models/account')
-const nodemailer = require('nodemailer')
 const bcrypt = require('bcrypt')
+const { sendMailQueue } = require('../config/mailer_job_queue')
 
 module.exports = (req, res) => {
     hashPass()
@@ -34,9 +34,12 @@ module.exports = (req, res) => {
         })
     }
     function sendMailer(email) {
-        return new Promise((resolve, reject) => {
+        return new Promise(resolve => {
             req.flash('success', 'Your password has been changed.')
             res.json({ messages: 'done', success: true })
+            let data = { email: email, opt: '2' }
+            let options = { priority: 2 }
+            sendMailQueue.add(data, options)
             return resolve('done')
         })
     }
